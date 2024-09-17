@@ -344,6 +344,7 @@
             cancelAnimationFrame(animationFrame);
         }
     });
+    
 document.addEventListener('keydown', (event) => {
     switch (event.code) {
         case 'Space':
@@ -359,19 +360,17 @@ document.addEventListener('keydown', (event) => {
             break;
 
         case 'ArrowUp':
-            // 向上箭頭增加滾動速度，並立即將文字向上移動
-            currentSpeed += 10;
+            // 向上箭頭立即將文字向上移動
             currentTranslateY -= 30;  // 向上移動30px
             text.style.transform = `translateY(${currentTranslateY}px)`;
-            console.log('向上箭頭按下，當前速度：', currentSpeed);
+            console.log('向上箭頭按下，文字向上移動，當前位置：', currentTranslateY);
             break;
 
         case 'ArrowDown':
-            // 向下箭頭減少滾動速度，並立即將文字向下移動
-            currentSpeed = Math.max(10, currentSpeed - 10); // 保持最小速度為10
+            // 向下箭頭立即將文字向下移動
             currentTranslateY += 30;  // 向下移動30px
             text.style.transform = `translateY(${currentTranslateY}px)`;
-            console.log('向下箭頭按下，當前速度：', currentSpeed);
+            console.log('向下箭頭按下，文字向下移動，當前位置：', currentTranslateY);
             break;
 
         case 'Escape':
