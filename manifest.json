@@ -8,7 +8,7 @@
   "description": "A simple and modern teleprompter web app",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/teleprompter/icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
