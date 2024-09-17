@@ -110,35 +110,37 @@
 }
 
 
-        #display {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-            color: #fff;
-            font-size: 50px;
-            display: none;
-            justify-content: flex-start;
-            align-items: flex-start;
-            text-align: center;
-        }
+#display {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
+    font-size: 50px;
+    display: none;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 
         #display.mirror {
             transform: scaleX(-1);
         }
 
-        #textContainer {
-            display: block;
-        }
+#textContainer {
+    width: 100%;
+    display: block;
+}
 
-        #text {
-            white-space: pre-wrap;
-            line-height: 1.5;
-            direction: ltr;
-        }
+#text {
+    width: 100%; /* 確保文字容器占滿寬度 */
+    text-align: center; /* 將文字居中顯示 */
+    white-space: pre-wrap;
+    line-height: 1.5;
+    direction: ltr;
+}
 
         #lineThicknessOptions {
             display: flex;
