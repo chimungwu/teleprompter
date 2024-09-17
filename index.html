@@ -1,19 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- iOS 支援 -->
-    <link rel="apple-touch-icon" href="/teleprompter/icon.png">
-    <!-- Android 支援 -->
-    <link rel="icon" sizes="192x192" href="/teleprompter/icon.png">
-    <!-- 網站圖標 -->
-    <link rel="icon" href="/teleprompter/icon.png" type="image/png">
-    <!-- 讓網頁可以成為 Web App 的設置 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="manifest" href="/teleprompter/manifest.json">
     <meta charset="UTF-8">
-    <title>簡單提詞器</title>
+    <title>簡單題詞器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body, html {
@@ -207,17 +196,18 @@
     </style>
 </head>
 <body>
+
 <h1 style="text-align: center; font-size: 36px; font-weight: bold;">簡單提詞器</h1>
 <p style="text-align: center;">
     程式維護：<a href="https://www.facebook.com/profile.php?id=61557246475372" target="_blank">仨寶爸中醫博士吳啓銘</a>
 </p>
-</p>
-    
+
 <div id="controls">
     <label for="inputText">輸入文字：</label>
 <textarea id="inputText" placeholder="這是一個簡單的提詞器。" oninput="this.placeholder = ''"></textarea>
+
 <div id="controls">
-   <button id="startBtn">開始滾動</button>
+<button id="startBtn">開始滾動</button>
 
 <label for="fontFamily">選擇字體：
     <select id="fontFamily">
@@ -225,20 +215,21 @@
         <option value="'Noto Sans TC', 'PingFang TC', sans-serif">思源黑體</option>
         <option value="'Noto Serif CJK TC', 'Source Han Serif', serif">思源宋體</option>
         <option value="'DFKai-SB', 'KaiTi', serif">標楷體</option>
-                <option value="Arial, sans-serif">Arial</option>
+        <option value="Arial, sans-serif">Arial</option>
         <option value="'Source Han Sans', sans-serif">Source Han Sans</option>
         <option value="'Source Han Serif', serif">Source Han Serif</option>
         <option value="'Times New Roman', serif">Times New Roman</option>
         <option value="'Courier New', monospace">Courier New</option>
-    </select>
-    <input type="checkbox" id="mirror">
+    </select> 
+
+   <input type="checkbox" id="mirror">
     <label for="mirror">鏡像文字</label>
 
     <label for="fontSize">字體大小：
     <input type="number" id="fontSize" value="40" min="10" max="100"></label>
 
     <label for="speed">滾動速度：
-    <input type="number" id="speed" value="30" min="10" max="100"></label>
+    <input type="number" id="speed" value="30" min="10" max="100"> px/s</label>
 </div>
 
 <div id="lineSettings">
@@ -263,9 +254,10 @@
 
 </div>
 
+
 </div>
 
-  <div id="display">
+<div id="display">
     <div id="textContainer">
         <div id="text"></div>
     </div>
@@ -501,7 +493,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-    </script>
+</script>
 
 </body>
 </html>
