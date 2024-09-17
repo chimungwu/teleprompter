@@ -1,0 +1,16 @@
+{
+  "name": "簡單提詞器",
+  "short_name": "提詞器",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "description": "A simple and modern teleprompter web app",
+  "icons": [
+    {
+      "src": "path_to_your_icon/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
