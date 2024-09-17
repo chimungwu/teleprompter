@@ -3,17 +3,12 @@
   "short_name": "提詞器",
   "icons": [
     {
-      "src": "/teleprompter/icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/teleprompter/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
     },
-    {
-      "src": "/teleprompter/icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
   ],
-  "start_url": "/teleprompter/index.html",
+  "start_url": "/teleprompter/",
   "background_color": "#ffffff",
   "display": "standalone",
   "theme_color": "#ffffff"
