@@ -103,9 +103,9 @@
     <label for="fontColor">字體顏色：</label>
     <input type="color" id="fontColor" value="#FFFFFF">
     <label for="fontSize">字體大小：</label>
-    <input type="number" id="fontSize" value="50" min="10" max="200"> px
+    <input type="number" id="fontSize" value="40" min="10" max="100"> px
     <label for="speed">滾動速度：</label>
-    <input type="number" id="speed" value="50" min="10" max="200"> px/s
+    <input type="number" id="speed" value="30" min="10" max="100"> px/s
     <label for="mirror">鏡像文字：</label>
     <input type="checkbox" id="mirror">
     <button id="startBtn">開始滾動</button>
@@ -354,14 +354,14 @@ document.addEventListener('keydown', (event) => {
 
         case 'ArrowUp':
             // 向上箭頭立即將文字向上移動
-            currentTranslateY -= 30;  // 向上移動30px
+            currentTranslateY -= 20;  // 向上移動30px
             text.style.transform = `translateY(${currentTranslateY}px)`;
             console.log('向上箭頭按下，文字向上移動，當前位置：', currentTranslateY);
             break;
 
         case 'ArrowDown':
             // 向下箭頭立即將文字向下移動
-            currentTranslateY += 30;  // 向下移動30px
+            currentTranslateY += 20;  // 向下移動30px
             text.style.transform = `translateY(${currentTranslateY}px)`;
             console.log('向下箭頭按下，文字向下移動，當前位置：', currentTranslateY);
             break;
@@ -421,12 +421,12 @@ function checkGamepadInput() {
 
             if (axisY < -0.5) {
                 // 搖桿向上
-                currentTranslateY -= 30;  // 向上移動30px
+                currentTranslateY -= 20;  // 向上移動30px
                 text.style.transform = `translateY(${currentTranslateY}px)`;
                 console.log('搖桿向上，當前位置：', currentTranslateY);
             } else if (axisY > 0.5) {
                 // 搖桿向下
-                currentTranslateY += 30;  // 向下移動30px
+                currentTranslateY += 20;  // 向下移動30px
                 text.style.transform = `translateY(${currentTranslateY}px)`;
                 console.log('搖桿向下，當前位置：', currentTranslateY);
             }
