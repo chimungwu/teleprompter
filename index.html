@@ -396,6 +396,64 @@ function scrollText(timestamp) {
         exitFullScreen();
     }
 }
+let currentGamepad = null;
+
+window.addEventListener("gamepadconnected", (event) => {
+    console.log("Gamepad connected:", event.gamepad);
+    currentGamepad = event.gamepad;
+    checkGamepadInput();
+});
+
+window.addEventListener("gamepaddisconnected", (event) => {
+    console.log("Gamepad disconnected:", event.gamepad);
+    currentGamepad = null;
+});
+
+// 持續檢查遊戲控制器的輸入
+function checkGamepadInput() {
+    if (currentGamepad) {
+        const gamepads = navigator.getGamepads();
+        const gp = gamepads[currentGamepad.index];
+
+        if (gp) {
+            // 檢查搖桿的 Y 軸輸入 (左搖桿的 Y 軸通常在 axis[1])
+            const axisY = gp.axes[1];
+
+            if (axisY < -0.5) {
+                // 搖桿向上
+                currentTranslateY -= 30;  // 向上移動30px
+                text.style.transform = `translateY(${currentTranslateY}px)`;
+                console.log('搖桿向上，當前位置：', currentTranslateY);
+            } else if (axisY > 0.5) {
+                // 搖桿向下
+                currentTranslateY += 30;  // 向下移動30px
+                text.style.transform = `translateY(${currentTranslateY}px)`;
+                console.log('搖桿向下，當前位置：', currentTranslateY);
+            }
+
+            // 檢查按鍵輸入
+            if (gp.buttons[0].pressed) {
+                // A 按鍵暫停/繼續滾動
+                if (!isPaused) {
+                    isPaused = true;
+                    pauseBtn.textContent = '繼續';
+                } else {
+                    isPaused = false;
+                    pauseBtn.textContent = '暫停';
+                    lastTimestamp = performance.now();
+                }
+            }
+
+            if (gp.buttons[1].pressed) {
+                // B 按鍵退出全屏
+                exitFullScreen();
+            }
+        }
+    }
+
+    // 使用 requestAnimationFrame 持續檢查遊戲控制器輸入
+    requestAnimationFrame(checkGamepadInput);
+}
 
     
 </script>
