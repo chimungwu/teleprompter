@@ -278,241 +278,229 @@
 </div>
 
 <script>
-    const inputText = document.getElementById('inputText');
-    const fontFamily = document.getElementById('fontFamily');
-    const bgColor = document.getElementById('bgColor');
-    const fontColor = document.getElementById('fontColor');
-    const fontSize = document.getElementById('fontSize');
-    const speed = document.getElementById('speed');
-    const mirror = document.getElementById('mirror');
-    const refLineColor = document.getElementById('refLineColor');
-    const lineOptions = document.querySelectorAll('.lineOption');
-    const startBtn = document.getElementById('startBtn');
-    const display = document.getElementById('display');
-    const textContainer = document.getElementById('textContainer');
-    const text = document.getElementById('text');
-    const referenceLine = document.getElementById('referenceLine');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const exitBtn = document.getElementById('exitBtn');
-    const controlButtons = document.getElementById('controlButtons');
+const inputText = document.getElementById('inputText');
+const fontFamily = document.getElementById('fontFamily');
+const bgColor = document.getElementById('bgColor');
+const fontColor = document.getElementById('fontColor');
+const fontSize = document.getElementById('fontSize');
+const speed = document.getElementById('speed');
+const mirror = document.getElementById('mirror');
+const refLineColor = document.getElementById('refLineColor');
+const refLineWidth = document.getElementById('refLineWidth');
+const startBtn = document.getElementById('startBtn');
+const display = document.getElementById('display');
+const textContainer = document.getElementById('textContainer');
+const text = document.getElementById('text');
+const referenceLine = document.getElementById('referenceLine');
+const pauseBtn = document.getElementById('pauseBtn');
+const exitBtn = document.getElementById('exitBtn');
+const controlButtons = document.getElementById('controlButtons');
 
-    let animationFrame;
-    let isPaused = false;
-    let isDragging = false;
-    let dragStartY = 0;
-    let dragStartTranslateY = 0;
-    let currentSpeed;
-    let startPosition;
-    let currentTranslateY;
-    let lastTimestamp;
+let animationFrame;
+let isPaused = false;
+let isDragging = false;
+let dragStartY = 0;
+let dragStartTranslateY = 0;
+let currentSpeed;
+let startPosition;
+let currentTranslateY;
+let lastTimestamp;
 
-    startBtn.addEventListener('click', () => {
-        // 設置文本樣式和內容
-        text.style.fontFamily = fontFamily.value;
-        text.style.fontSize = fontSize.value + 'px';
-        text.style.color = fontColor.value;
-        text.innerText = inputText.value;
-        display.style.backgroundColor = bgColor.value;
+startBtn.addEventListener('click', () => {
+    // 設置文本樣式和內容
+    text.style.fontFamily = fontFamily.value;
+    text.style.fontSize = fontSize.value + 'px';
+    text.style.color = fontColor.value;
+    text.innerText = inputText.value;
+    display.style.backgroundColor = bgColor.value;
 
-        // 設置鏡像效果
-        if (mirror.checked) {
-            display.classList.add('mirror');
-            textContainer.classList.add('mirror');
-        } else {
-            display.classList.remove('mirror');
-            textContainer.classList.remove('mirror');
-        }
+    // 設置鏡像效果
+    if (mirror.checked) {
+        display.classList.add('mirror');
+        textContainer.classList.add('mirror');
+    } else {
+        display.classList.remove('mirror');
+        textContainer.classList.remove('mirror');
+    }
 
-        // 設置參考線樣式
-        referenceLine.style.borderTopColor = refLineColor.value;
+    // 設置參考線樣式
+    referenceLine.style.borderTopColor = refLineColor.value;
+    referenceLine.style.borderTopWidth = `${refLineWidth.value}px`;
 
-// 在變數區域定義後添加此代碼
-refLineWidth.addEventListener('change', () => {
-    referenceLine.style.borderTopWidth = `${refLineWidth.value}px`; // 更新參考線的粗細
+    // 顯示題詞器
+    display.style.display = 'flex';
+    controlButtons.style.display = 'flex';
+    document.getElementById('controls').style.display = 'none';
+
+    // 進入全螢幕模式
+    enterFullScreen();
+
+    // 強制 iOS 渲染重繪，避免滾動問題
+    text.style.transform = 'translateY(0px)';  // 強制重置位置
+    void text.offsetHeight;  // 強制觸發渲染
+
+    // 初始化滾動參數
+    isPaused = false;
+    isDragging = false;
+    currentSpeed = parseInt(speed.value);
+
+    setTimeout(() => {
+        const displayHeight = display.offsetHeight;
+        const referenceLinePosition = displayHeight * 0.5; // 參考線位置
+
+        startPosition = referenceLinePosition; // 從參考線位置開始
+        currentTranslateY = startPosition;
+        text.style.transform = `translateY(${currentTranslateY}px)`;  // 正確初始化位置
+
+        lastTimestamp = performance.now();
+
+        // 開始滾動
+        requestAnimationFrame(scrollText);
+    }, 100);  // 添加 100 毫秒的延遲，讓 iOS 渲染
 });
 
-        // 獲取選擇的參考線粗細
-        let selectedLineWidth = 2; // 默認粗細
-        lineOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                selectedLineWidth = this.getAttribute('data-width');
-                referenceLine.style.borderTopWidth = `${selectedLineWidth}px`;
-                // 標記選中的樣式
-                lineOptions.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-            });
-        });
-
-
-        // 顯示題詞器
-        display.style.display = 'flex';
-        controlButtons.style.display = 'flex';
-        document.getElementById('controls').style.display = 'none';
-
-        // 進入全螢幕模式
-        enterFullScreen();
-
-        // 初始化滾動參數
-        isPaused = false;
-        isDragging = false;
-        currentSpeed = parseInt(speed.value);
-
-        setTimeout(() => {
-            const displayHeight = display.offsetHeight;
-            const referenceLinePosition = displayHeight * 0.5; // 參考線位置
-
-            startPosition = referenceLinePosition; // 從參考線位置開始
-            currentTranslateY = startPosition;
-            text.style.transform = `translateY(${currentTranslateY}px)`;
-
-            lastTimestamp = performance.now();
-
-            // 開始滾動
-            requestAnimationFrame(scrollText);
-        }, 0);
-    });
-
-    function scrollText(timestamp) {
-        if (isPaused || isDragging) {
-            lastTimestamp = timestamp;
-            animationFrame = requestAnimationFrame(scrollText);
-            return;
-        }
-
-        const deltaTime = timestamp - lastTimestamp;
+function scrollText(timestamp) {
+    if (isPaused || isDragging) {
         lastTimestamp = timestamp;
-
-        const distance = deltaTime * currentSpeed / 1000;
-        currentTranslateY -= distance;
-        text.style.transform = `translateY(${currentTranslateY}px)`;
-
-        if (currentTranslateY + text.offsetHeight > 0) {
-            animationFrame = requestAnimationFrame(scrollText);
-        } else {
-            exitFullScreen();
-        }
+        animationFrame = requestAnimationFrame(scrollText);
+        return;
     }
 
-    pauseBtn.addEventListener('click', () => {
-        if (!isPaused) {
-            isPaused = true;
-            pauseBtn.textContent = '繼續';
-        } else {
-            isPaused = false;
-            pauseBtn.textContent = '暫停';
-            lastTimestamp = performance.now();
-        }
-    });
+    const deltaTime = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
 
-    exitBtn.addEventListener('click', () => {
-        cancelAnimationFrame(animationFrame);
+    const distance = deltaTime * currentSpeed / 1000;
+    currentTranslateY -= distance;
+    text.style.transform = `translateY(${currentTranslateY}px)`;
+
+    if (currentTranslateY + text.offsetHeight > 0) {
+        animationFrame = requestAnimationFrame(scrollText);
+    } else {
         exitFullScreen();
-    });
-
-    display.addEventListener('click', () => {
-        if (isDragging) return;
-        if (!isPaused) {
-            isPaused = true;
-            pauseBtn.textContent = '繼續';
-        } else {
-            isPaused = false;
-            pauseBtn.textContent = '暫停';
-            lastTimestamp = performance.now();
-        }
-    });
-
-    function onDragStart(event) {
-        if (!isPaused) return;
-        isDragging = true;
-        dragStartY = event.type === 'mousedown' ? event.clientY : event.touches[0].clientY;
-        const style = window.getComputedStyle(text);
-        const matrix = new DOMMatrixReadOnly(style.transform);
-        dragStartTranslateY = matrix.m42;
-        event.preventDefault();
-        document.body.style.userSelect = 'none';
     }
+}
 
-    function onDragMove(event) {
-        if (!isDragging) return;
-        const currentY = event.type === 'mousemove' ? event.clientY : event.touches[0].clientY;
-        const deltaY = currentY - dragStartY;
-        const newTranslateY = dragStartTranslateY + deltaY;
-        text.style.transform = `translateY(${newTranslateY}px)`;
+pauseBtn.addEventListener('click', () => {
+    if (!isPaused) {
+        isPaused = true;
+        pauseBtn.textContent = '繼續';
+    } else {
+        isPaused = false;
+        pauseBtn.textContent = '暫停';
+        lastTimestamp = performance.now();
     }
+});
 
-    function onDragEnd(event) {
-        if (!isDragging) return;
-        isDragging = false;
-        const style = window.getComputedStyle(text);
-        const matrix = new DOMMatrixReadOnly(style.transform);
-        currentTranslateY = matrix.m42;
-        document.body.style.userSelect = 'auto';
+exitBtn.addEventListener('click', () => {
+    cancelAnimationFrame(animationFrame);
+    exitFullScreen();
+});
+
+display.addEventListener('click', () => {
+    if (isDragging) return;
+    if (!isPaused) {
+        isPaused = true;
+        pauseBtn.textContent = '繼續';
+    } else {
+        isPaused = false;
+        pauseBtn.textContent = '暫停';
+        lastTimestamp = performance.now();
     }
+});
 
-    text.addEventListener('mousedown', onDragStart);
-    document.addEventListener('mousemove', onDragMove);
-    document.addEventListener('mouseup', onDragEnd);
+function onDragStart(event) {
+    if (!isPaused) return;
+    isDragging = true;
+    dragStartY = event.type === 'mousedown' ? event.clientY : event.touches[0].clientY;
+    const style = window.getComputedStyle(text);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    dragStartTranslateY = matrix.m42;
+    event.preventDefault();
+    document.body.style.userSelect = 'none';
+}
 
-    text.addEventListener('touchstart', onDragStart);
-    document.addEventListener('touchmove', onDragMove);
-    document.addEventListener('touchend', onDragEnd);
+function onDragMove(event) {
+    if (!isDragging) return;
+    const currentY = event.type === 'mousemove' ? event.clientY : event.touches[0].clientY;
+    const deltaY = currentY - dragStartY;
+    const newTranslateY = dragStartTranslateY + deltaY;
+    text.style.transform = `translateY(${newTranslateY}px)`;
+}
 
-    function enterFullScreen() {
-        const docElm = document.documentElement;
-        if (docElm.requestFullscreen) {
-            docElm.requestFullscreen();
-        } else if (docElm.mozRequestFullScreen) {
-            docElm.mozRequestFullScreen();
-        } else if (docElm.webkitRequestFullscreen) {
-            docElm.webkitRequestFullscreen();
-        } else if (docElm.msRequestFullscreen) {
-            docElm.msRequestFullscreen();
-        }
+function onDragEnd(event) {
+    if (!isDragging) return;
+    isDragging = false;
+    const style = window.getComputedStyle(text);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    currentTranslateY = matrix.m42;
+    document.body.style.userSelect = 'auto';
+}
+
+text.addEventListener('mousedown', onDragStart);
+document.addEventListener('mousemove', onDragMove);
+document.addEventListener('mouseup', onDragEnd);
+
+text.addEventListener('touchstart', onDragStart);
+document.addEventListener('touchmove', onDragMove);
+document.addEventListener('touchend', onDragEnd);
+
+function enterFullScreen() {
+    const docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    } else if (docElm.mozRequestFullScreen) {
+        docElm.mozRequestFullScreen();
+    } else if (docElm.webkitRequestFullscreen) {
+        docElm.webkitRequestFullscreen();
+    } else if (docElm.msRequestFullscreen) {
+        docElm.msRequestFullscreen();
     }
+}
 
-    function exitFullScreen() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
-        display.style.display = 'none';
-        controlButtons.style.display = 'none';
-        document.getElementById('controls').style.display = 'block';
-        cancelAnimationFrame(animationFrame);
+function exitFullScreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
     }
+    display.style.display = 'none';
+    controlButtons.style.display = 'none';
+    document.getElementById('controls').style.display = 'block';
+    cancelAnimationFrame(animationFrame);
+}
 
-    document.addEventListener('keydown', (event) => {
-        switch (event.code) {
-            case 'Space':
-                if (!isPaused) {
-                    isPaused = true;
-                    pauseBtn.textContent = '繼續';
-                } else {
-                    isPaused = false;
-                    pauseBtn.textContent = '暫停';
-                    lastTimestamp = performance.now();
-                }
-                break;
-            case 'ArrowUp':
-                currentTranslateY -= 20;
-                text.style.transform = `translateY(${currentTranslateY}px)`;
-                break;
-            case 'ArrowDown':
-                currentTranslateY += 20;
-                text.style.transform = `translateY(${currentTranslateY}px)`;
-                break;
-            case 'Escape':
-                exitFullScreen();
-                break;
-            default:
-                break;
-        }
-    });
+document.addEventListener('keydown', (event) => {
+    switch (event.code) {
+        case 'Space':
+            if (!isPaused) {
+                isPaused = true;
+                pauseBtn.textContent = '繼續';
+            } else {
+                isPaused = false;
+                pauseBtn.textContent = '暫停';
+                lastTimestamp = performance.now();
+            }
+            break;
+        case 'ArrowUp':
+            currentTranslateY -= 20;
+            text.style.transform = `translateY(${currentTranslateY}px)`;
+            break;
+        case 'ArrowDown':
+            currentTranslateY += 20;
+            text.style.transform = `translateY(${currentTranslateY}px)`;
+            break;
+        case 'Escape':
+            exitFullScreen();
+            break;
+        default:
+            break;
+    }
+});
+
     </script>
 
 </body>
