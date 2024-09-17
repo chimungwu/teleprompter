@@ -11,39 +11,62 @@
             height: 100%;
             font-family: Arial, sans-serif;
         }
+
         #controls {
             padding: 10px;
             background-color: #f0f0f0;
         }
+
         #controls label {
             display: block;
             margin-top: 10px;
-            font-size: 14px; /* 字體大小調小 */
+            font-size: 14px;
             color: #333;
         }
 
         #controls input, #controls select, #controls button, #controls textarea {
             width: 100%;
             margin-top: 5px;
-            padding: 8px; /* 縮小內邊距 */
-            font-size: 14px; /* 字體大小縮小 */
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        #inputText {
+            height: 150px;
+            resize: vertical;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #fontSettings {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #fontSettings label {
+            margin: 0;
         }
 
         #controls input[type="color"] {
-            width: 50px; /* 縮小顏色選擇器的寬度 */
-            height: 30px; /* 調整顏色選擇器的高度 */
+            width: 50px;
+            height: 30px;
             padding: 0;
             margin-right: 5px;
         }
 
         #controls input[type="number"] {
-            width: 80px; /* 縮小數字選項 */
-            padding: 5px; /* 減少內邊距 */
+            width: 80px;
+            padding: 5px;
         }
 
         #controls select {
-            width: auto; /* 根據內容自動調整寬度 */
-            padding: 5px; /* 減少內邊距 */
+            width: auto;
+            padding: 5px;
         }
 
         #controls button {
@@ -61,20 +84,32 @@
         }
 
         #mirror {
-            margin-right: 5px;
+            display: none;
         }
 
+        /* 按鈕未選中時的樣式 */
         #controls label[for="mirror"] {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ccc;
+            color: #000;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            font-size: 16px; /* 調整鏡像文字的勾選標籤大小 */
-            margin-top: 20px;
+            text-align: center;
         }
 
+        /* 按鈕選中時的樣式 */
         #mirror:checked + label {
-            color: #007bff; /* 選中時更醒目的顏色 */
+            background-color: #007bff;
+            color: #fff;
         }
+#lineSettings {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制項目之間的間距 */
+}
+
 
         #display {
             position: fixed;
@@ -87,8 +122,8 @@
             color: #fff;
             font-size: 50px;
             display: none;
-            justify-content: flex-start; /* 從頂部開始排列 */
-            align-items: flex-start; /* 從頂部開始排列 */
+            justify-content: flex-start;
+            align-items: flex-start;
             text-align: center;
         }
 
@@ -96,7 +131,6 @@
             transform: scaleX(-1);
         }
 
-        /* 文字容器 */
         #textContainer {
             display: block;
         }
@@ -104,16 +138,33 @@
         #text {
             white-space: pre-wrap;
             line-height: 1.5;
-            direction: ltr; /* 保持從左到右的閱讀方向 */
+            direction: ltr;
         }
 
-        #referenceLine {
-            position: absolute;
-            top: 50%; /* 固定在可視區域的中間 */
-            left: 0;
-            width: 100%;
-            border-top: 2px solid red;
-            pointer-events: none;
+        #lineThicknessOptions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .lineOption {
+            width: 40px;
+            height: 20px;
+            background-color: red;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .lineOption[data-width="1"] { height: 1px; }
+        .lineOption[data-width="2"] { height: 2px; }
+        .lineOption[data-width="3"] { height: 3px; }
+        .lineOption[data-width="4"] { height: 4px; }
+        .lineOption[data-width="5"] { height: 5px; }
+        .lineOption[data-width="6"] { height: 6px; }
+        .lineOption[data-width="7"] { height: 7px; }
+
+        .lineOption.selected {
+            border: 2px solid blue;
         }
 
         #controlButtons {
@@ -121,7 +172,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            display: none; /* 隱藏字體調整按鈕，全螢幕保持簡潔 */
+            display: none;
             gap: 20px;
         }
 
@@ -129,6 +180,20 @@
             padding: 10px 20px;
             font-size: 16px;
         }
+#speedSetting {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* 控制文字和輸入框之間的距離 */
+}
+
+#referenceLine {
+    position: absolute;
+    top: 50%; /* 固定在畫面中間 */
+    left: 0;
+    width: 100%;
+    border-top: 2px solid red; /* 確保這裡有適當的 border 設置 */
+    pointer-events: none; /* 防止參考線阻擋點擊事件 */
+}
     </style>
 </head>
 <body>
@@ -137,38 +202,52 @@
     <label for="inputText">輸入文字：</label>
     <textarea id="inputText">這是一個簡單的題詞器。</textarea>
 
-    <label for="fontFamily">選擇字體：</label>
-    <select id="fontFamily">
-        <option value="Arial, sans-serif">Arial</option>
-        <option value="'微軟正黑體', sans-serif">微軟正黑體</option>
-        <option value="'Times New Roman', serif">Times New Roman</option>
-        <option value="'Courier New', monospace">Courier New</option>
-    </select>
+    <div id="fontSettings">
+        <label for="fontFamily">選擇字體：</label>
+        <select id="fontFamily">
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="'微軟正黑體', sans-serif">微軟正黑體</option>
+            <option value="'Times New Roman', serif">Times New Roman</option>
+            <option value="'Courier New', monospace">Courier New</option>
+        </select>
 
+        <label for="fontSize">字體大小：</label>
+        <input type="number" id="fontSize" value="40" min="10" max="100"> px
+
+        <label for="fontColor">字體顏色：</label>
+        <input type="color" id="fontColor" value="#FFFFFF">
+    </div>
+
+<div id="lineSettings">
     <label for="bgColor">背景顏色：</label>
     <input type="color" id="bgColor" value="#000000">
 
     <label for="refLineColor">參考線顏色：</label>
     <input type="color" id="refLineColor" value="#FF0000">
 
-    <label for="refLineWidth">參考線粗細：</label>
-    <input type="number" id="refLineWidth" value="2" min="1" max="10"> px
+    <label for="refLineWidth">選擇參考線粗細：</label>
+    <select id="refLineWidth">
+        <option value="1">1px</option>
+        <option value="2">2px</option>
+        <option value="3">3px</option>
+        <option value="4">4px</option>
+        <option value="5">5px</option>
+        <option value="6">6px</option>
+        <option value="7">7px</option>
+    </select>
+</div>
 
-    <label for="fontColor">字體顏色：</label>
-    <input type="color" id="fontColor" value="#FFFFFF">
-
-    <label for="fontSize">字體大小：</label>
-    <input type="number" id="fontSize" value="40" min="10" max="100"> px
-
+<div id="speedSetting">
     <label for="speed">滾動速度：</label>
     <input type="number" id="speed" value="30" min="10" max="100"> px/s
+</div>
 
-    <label for="mirror">
-        <input type="checkbox" id="mirror">
-        鏡像文字
-    </label>
+    <input type="checkbox" id="mirror">
+    <label for="mirror">鏡像文字</label>
+
 
     <button id="startBtn">開始滾動</button>
+
 </div>
 
 <div id="display">
@@ -192,7 +271,7 @@
     const speed = document.getElementById('speed');
     const mirror = document.getElementById('mirror');
     const refLineColor = document.getElementById('refLineColor');
-    const refLineWidth = document.getElementById('refLineWidth');
+    const lineOptions = document.querySelectorAll('.lineOption');
     const startBtn = document.getElementById('startBtn');
     const display = document.getElementById('display');
     const textContainer = document.getElementById('textContainer');
@@ -231,7 +310,24 @@
 
         // 設置參考線樣式
         referenceLine.style.borderTopColor = refLineColor.value;
-        referenceLine.style.borderTopWidth = refLineWidth.value + 'px';
+
+// 在變數區域定義後添加此代碼
+refLineWidth.addEventListener('change', () => {
+    referenceLine.style.borderTopWidth = `${refLineWidth.value}px`; // 更新參考線的粗細
+});
+
+        // 獲取選擇的參考線粗細
+        let selectedLineWidth = 2; // 默認粗細
+        lineOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                selectedLineWidth = this.getAttribute('data-width');
+                referenceLine.style.borderTopWidth = `${selectedLineWidth}px`;
+                // 標記選中的樣式
+                lineOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
 
         // 顯示題詞器
         display.style.display = 'flex';
@@ -263,7 +359,7 @@
 
     function scrollText(timestamp) {
         if (isPaused || isDragging) {
-            lastTimestamp = timestamp; // 防止暫停或拖動期間時間累積
+            lastTimestamp = timestamp;
             animationFrame = requestAnimationFrame(scrollText);
             return;
         }
@@ -278,22 +374,18 @@
         if (currentTranslateY + text.offsetHeight > 0) {
             animationFrame = requestAnimationFrame(scrollText);
         } else {
-            // 滾動結束，退出全屏
             exitFullScreen();
         }
     }
 
-    // 控制按鈕事件
     pauseBtn.addEventListener('click', () => {
         if (!isPaused) {
-            // 暫停滾動
             isPaused = true;
             pauseBtn.textContent = '繼續';
         } else {
-            // 繼續滾動
             isPaused = false;
             pauseBtn.textContent = '暫停';
-            lastTimestamp = performance.now(); // 更新時間參考
+            lastTimestamp = performance.now();
         }
     });
 
@@ -302,29 +394,17 @@
         exitFullScreen();
     });
 
-    // 點擊屏幕暫停/繼續
     display.addEventListener('click', () => {
-        if (isDragging) return; // 拖動時不響應點擊事件
+        if (isDragging) return;
         if (!isPaused) {
-            // 暫停滾動
             isPaused = true;
             pauseBtn.textContent = '繼續';
         } else {
-            // 繼續滾動
             isPaused = false;
             pauseBtn.textContent = '暫停';
-            lastTimestamp = performance.now(); // 更新時間參考
+            lastTimestamp = performance.now();
         }
     });
-
-    // 拖動事件
-    text.addEventListener('mousedown', onDragStart);
-    document.addEventListener('mousemove', onDragMove);
-    document.addEventListener('mouseup', onDragEnd);
-
-    text.addEventListener('touchstart', onDragStart);
-    document.addEventListener('touchmove', onDragMove);
-    document.addEventListener('touchend', onDragEnd);
 
     function onDragStart(event) {
         if (!isPaused) return;
@@ -334,7 +414,6 @@
         const matrix = new DOMMatrixReadOnly(style.transform);
         dragStartTranslateY = matrix.m42;
         event.preventDefault();
-        // 禁用文字選取
         document.body.style.userSelect = 'none';
     }
 
@@ -352,148 +431,49 @@
         const style = window.getComputedStyle(text);
         const matrix = new DOMMatrixReadOnly(style.transform);
         currentTranslateY = matrix.m42;
-        // 恢復文字選取
         document.body.style.userSelect = 'auto';
     }
 
-    // 進入全螢幕模式
+    text.addEventListener('mousedown', onDragStart);
+    document.addEventListener('mousemove', onDragMove);
+    document.addEventListener('mouseup', onDragEnd);
+
+    text.addEventListener('touchstart', onDragStart);
+    document.addEventListener('touchmove', onDragMove);
+    document.addEventListener('touchend', onDragEnd);
+
     function enterFullScreen() {
         const docElm = document.documentElement;
         if (docElm.requestFullscreen) {
             docElm.requestFullscreen();
-        } else if (docElm.mozRequestFullScreen) { /* Firefox */
+        } else if (docElm.mozRequestFullScreen) {
             docElm.mozRequestFullScreen();
-        } else if (docElm.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        } else if (docElm.webkitRequestFullscreen) {
             docElm.webkitRequestFullscreen();
-        } else if (docElm.msRequestFullscreen) { /* IE/Edge */
+        } else if (docElm.msRequestFullscreen) {
             docElm.msRequestFullscreen();
         }
     }
 
-    // 退出全螢幕模式
     function exitFullScreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { /* Firefox */
+        } else if (document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE/Edge */
+        } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
         display.style.display = 'none';
         controlButtons.style.display = 'none';
         document.getElementById('controls').style.display = 'block';
-        // 重置滾動動畫
         cancelAnimationFrame(animationFrame);
     }
 
-    // 防止控制按鈕在全螢幕模式下自動隱藏
-    document.addEventListener('fullscreenchange', () => {
-        if (!document.fullscreenElement) {
-            display.style.display = 'none';
-            controlButtons.style.display = 'none';
-            document.getElementById('controls').style.display = 'block';
-            cancelAnimationFrame(animationFrame);
-        }
-    });
-    
-document.addEventListener('keydown', (event) => {
-    switch (event.code) {
-        case 'Space':
-            // 空格鍵控制暫停和繼續
-            if (!isPaused) {
-                isPaused = true;
-                pauseBtn.textContent = '繼續';
-            } else {
-                isPaused = false;
-                pauseBtn.textContent = '暫停';
-                lastTimestamp = performance.now(); // 更新時間參考
-            }
-            break;
-
-        case 'ArrowUp':
-            // 向上箭頭立即將文字向上移動
-            currentTranslateY -= 20;  // 向上移動30px
-            text.style.transform = `translateY(${currentTranslateY}px)`;
-            console.log('向上箭頭按下，文字向上移動，當前位置：', currentTranslateY);
-            break;
-
-        case 'ArrowDown':
-            // 向下箭頭立即將文字向下移動
-            currentTranslateY += 20;  // 向下移動30px
-            text.style.transform = `translateY(${currentTranslateY}px)`;
-            console.log('向下箭頭按下，文字向下移動，當前位置：', currentTranslateY);
-            break;
-
-        case 'Escape':
-            // Escape 鍵退出全屏模式
-            exitFullScreen();
-            break;
-
-        default:
-            break;
-    }
-});
-function scrollText(timestamp) {
-    if (isPaused || isDragging) {
-        lastTimestamp = timestamp; // 防止暫停或拖動期間時間累積
-        animationFrame = requestAnimationFrame(scrollText);
-        return;
-    }
-
-    const deltaTime = timestamp - lastTimestamp;
-    lastTimestamp = timestamp;
-
-    const distance = deltaTime * currentSpeed / 1000;
-    currentTranslateY -= distance;  // 根據當前速度更新位置
-    text.style.transform = `translateY(${currentTranslateY}px)`;  // 更新文字位置
-
-    if (currentTranslateY + text.offsetHeight > 0) {
-        animationFrame = requestAnimationFrame(scrollText);  // 持續滾動
-    } else {
-        // 滾動結束，退出全屏
-        exitFullScreen();
-    }
-}
-let currentGamepad = null;
-
-window.addEventListener("gamepadconnected", (event) => {
-    console.log("Gamepad connected:", event.gamepad);
-    currentGamepad = event.gamepad;
-    checkGamepadInput();
-});
-
-window.addEventListener("gamepaddisconnected", (event) => {
-    console.log("Gamepad disconnected:", event.gamepad);
-    currentGamepad = null;
-});
-
-// 持續檢查遊戲控制器的輸入
-function checkGamepadInput() {
-    if (currentGamepad) {
-        const gamepads = navigator.getGamepads();
-        const gp = gamepads[currentGamepad.index];
-
-        if (gp) {
-            // 檢查搖桿的 Y 軸輸入 (左搖桿的 Y 軸通常在 axis[1])
-            const axisY = gp.axes[1];
-
-            if (axisY < -0.5) {
-                // 搖桿向上
-                currentTranslateY -= 20;  // 向上移動30px
-                text.style.transform = `translateY(${currentTranslateY}px)`;
-                console.log('搖桿向上，當前位置：', currentTranslateY);
-            } else if (axisY > 0.5) {
-                // 搖桿向下
-                currentTranslateY += 20;  // 向下移動30px
-                text.style.transform = `translateY(${currentTranslateY}px)`;
-                console.log('搖桿向下，當前位置：', currentTranslateY);
-            }
-
-            // 檢查按鍵輸入
-            if (gp.buttons[0].pressed) {
-                // A 按鍵暫停/繼續滾動
+    document.addEventListener('keydown', (event) => {
+        switch (event.code) {
+            case 'Space':
                 if (!isPaused) {
                     isPaused = true;
                     pauseBtn.textContent = '繼續';
@@ -502,20 +482,22 @@ function checkGamepadInput() {
                     pauseBtn.textContent = '暫停';
                     lastTimestamp = performance.now();
                 }
-            }
-
-            if (gp.buttons[1].pressed) {
-                // B 按鍵退出全屏
+                break;
+            case 'ArrowUp':
+                currentTranslateY -= 20;
+                text.style.transform = `translateY(${currentTranslateY}px)`;
+                break;
+            case 'ArrowDown':
+                currentTranslateY += 20;
+                text.style.transform = `translateY(${currentTranslateY}px)`;
+                break;
+            case 'Escape':
                 exitFullScreen();
-            }
+                break;
+            default:
+                break;
         }
-    }
-
-    // 使用 requestAnimationFrame 持續檢查遊戲控制器輸入
-    requestAnimationFrame(checkGamepadInput);
-}
-
-    
+    });
 </script>
 
 </body>
