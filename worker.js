@@ -2,8 +2,8 @@ self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open('teleprompter-app').then((cache) => cache.addAll([
       '/teleprompter/',
-      '/teleprompter/index.html',
-      '/teleprompter/icon.png',
+      '/teleprompter/favicon.ico',
+      '/teleprompter/apple-touch-icon.png',
     ]))
   );
 });
