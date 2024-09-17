@@ -344,6 +344,41 @@
             cancelAnimationFrame(animationFrame);
         }
     });
+    //鍵盤控制
+    document.addEventListener('keydown', (event) => {
+    switch (event.code) {
+        case 'Space':
+            // 空格鍵控制暫停和繼續
+            if (!isPaused) {
+                isPaused = true;
+                pauseBtn.textContent = '繼續';
+            } else {
+                isPaused = false;
+                pauseBtn.textContent = '暫停';
+                lastTimestamp = performance.now(); // 更新時間參考
+            }
+            break;
+
+        case 'ArrowUp':
+            // 向上箭頭加速滾動
+            currentSpeed += 10;
+            break;
+
+        case 'ArrowDown':
+            // 向下箭頭減速滾動
+            currentSpeed = Math.max(10, currentSpeed - 10); // 避免速度變成負數
+            break;
+
+        case 'Escape':
+            // Escape 鍵退出全屏模式
+            exitFullScreen();
+            break;
+
+        default:
+            break;
+    }
+});
+    
 </script>
 
 </body>
