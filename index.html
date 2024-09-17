@@ -344,8 +344,7 @@
             cancelAnimationFrame(animationFrame);
         }
     });
-    //鍵盤控制
-    document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event) => {
     switch (event.code) {
         case 'Space':
             // 空格鍵控制暫停和繼續
@@ -360,13 +359,19 @@
             break;
 
         case 'ArrowUp':
-            // 向上箭頭加速滾動
+            // 向上箭頭增加滾動速度，並立即將文字向上移動
             currentSpeed += 10;
+            currentTranslateY -= 30;  // 向上移動30px
+            text.style.transform = `translateY(${currentTranslateY}px)`;
+            console.log('向上箭頭按下，當前速度：', currentSpeed);
             break;
 
         case 'ArrowDown':
-            // 向下箭頭減速滾動
-            currentSpeed = Math.max(10, currentSpeed - 10); // 避免速度變成負數
+            // 向下箭頭減少滾動速度，並立即將文字向下移動
+            currentSpeed = Math.max(10, currentSpeed - 10); // 保持最小速度為10
+            currentTranslateY += 30;  // 向下移動30px
+            text.style.transform = `translateY(${currentTranslateY}px)`;
+            console.log('向下箭頭按下，當前速度：', currentSpeed);
             break;
 
         case 'Escape':
@@ -378,6 +383,28 @@
             break;
     }
 });
+function scrollText(timestamp) {
+    if (isPaused || isDragging) {
+        lastTimestamp = timestamp; // 防止暫停或拖動期間時間累積
+        animationFrame = requestAnimationFrame(scrollText);
+        return;
+    }
+
+    const deltaTime = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+
+    const distance = deltaTime * currentSpeed / 1000;
+    currentTranslateY -= distance;  // 根據當前速度更新位置
+    text.style.transform = `translateY(${currentTranslateY}px)`;  // 更新文字位置
+
+    if (currentTranslateY + text.offsetHeight > 0) {
+        animationFrame = requestAnimationFrame(scrollText);  // 持續滾動
+    } else {
+        // 滾動結束，退出全屏
+        exitFullScreen();
+    }
+}
+
     
 </script>
 
