@@ -224,9 +224,6 @@
 <div id="controls">
 <button id="startBtn">開始滾動</button>
 
-<div id="controls">
-<button id="startBtn">開始滾動</button>
-
 <label for="fontFamily">選擇字體：
     <select id="fontFamily">
         <option value="'PingFang TC', 'Microsoft JhengHei', sans-serif">微軟正黑體</option>
@@ -260,7 +257,7 @@
     <select id="refLineWidth">
         <option value="1">1px</option>
         <option value="2">2px</option>
-        <option value="3">3px</option>
+        <option value="3" selected>3px</option> <!-- 設置預設值為 3px -->        
         <option value="4">4px</option>
         <option value="5">5px</option>
         <option value="6">6px</option>
@@ -321,20 +318,18 @@ startBtn.addEventListener('click', () => {
     text.innerText = inputText.value;
     display.style.backgroundColor = bgColor.value;
 
-    // 設置鏡像效果
-    if (mirror.checked) {
-        display.classList.add('mirror');
-        textContainer.classList.add('mirror');
-    } else {
-        display.classList.remove('mirror');
-        textContainer.classList.remove('mirror');
-    }
-
     // 設置參考線樣式
     referenceLine.style.borderTopColor = refLineColor.value;
+
+    // 立即根據用戶選擇的粗細設置參考線粗細
     referenceLine.style.borderTopWidth = `${refLineWidth.value}px`;
 
-    // 顯示提詞器
+    // 用戶修改參考線粗細時，動態更新
+    refLineWidth.addEventListener('change', () => {
+        referenceLine.style.borderTopWidth = `${refLineWidth.value}px`;
+    });
+
+    // 顯示題詞器
     display.style.display = 'flex';
     controlButtons.style.display = 'flex';
     document.getElementById('controls').style.display = 'none';
@@ -343,8 +338,8 @@ startBtn.addEventListener('click', () => {
     enterFullScreen();
 
     // 強制 iOS 渲染重繪，避免滾動問題
-    text.style.transform = 'translateY(0px)';  // 強制重置位置
-    void text.offsetHeight;  // 強制觸發渲染
+    text.style.transform = 'translateY(0px)';
+    void text.offsetHeight;
 
     // 初始化滾動參數
     isPaused = false;
@@ -353,17 +348,21 @@ startBtn.addEventListener('click', () => {
 
     setTimeout(() => {
         const displayHeight = display.offsetHeight;
-        const referenceLinePosition = displayHeight * 0.5; // 參考線位置
+        const referenceLinePosition = displayHeight * 0.5;
 
-        startPosition = referenceLinePosition; // 從參考線位置開始
+        startPosition = referenceLinePosition;
         currentTranslateY = startPosition;
-        text.style.transform = `translateY(${currentTranslateY}px)`;  // 正確初始化位置
+        text.style.transform = `translateY(${currentTranslateY}px)`;
 
         lastTimestamp = performance.now();
 
-        // 開始滾動
         requestAnimationFrame(scrollText);
-    }, 100);  // 添加 100 毫秒的延遲，讓 iOS 渲染
+    }, 100);
+
+    // 延遲進入全螢幕模式
+    setTimeout(() => {
+        enterFullScreen();
+    }, 200);
 });
 
 function scrollText(timestamp) {
