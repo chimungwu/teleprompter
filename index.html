@@ -207,32 +207,41 @@
 <textarea id="inputText" placeholder="這是一個簡單的提詞器。" oninput="this.placeholder = ''"></textarea>
 
 <div id="controls">
-    <label for="fontFamily">選擇字體：</label>
+<label for="fontFamily">選擇字體：
     <select id="fontFamily">
-        <option value="Arial, sans-serif">Arial</option>
         <option value="'微軟正黑體', sans-serif">微軟正黑體</option>
+        <option value="'PingFang TC', sans-serif">蘋方-繁</option>
+        <option value="'Noto Sans TC', sans-serif">思源黑體</option>
+        <option value="'Noto Serif CJK', serif">思源宋體</option>
+        <option value="'Heiti TC', sans-serif">黑體-繁</option>
+        <option value="'SimHei', sans-serif">中易黑體</option>
+        <option value="'SimSun', serif">中易宋體</option>
+        <option value="'KaiTi', serif">標楷體</option>
+        <option value="Arial, sans-serif">Arial</option>
+        <option value="'Source Han Sans', sans-serif">Source Han Sans</option>
+        <option value="'Source Han Serif', serif">Source Han Serif</option>
         <option value="'Times New Roman', serif">Times New Roman</option>
         <option value="'Courier New', monospace">Courier New</option>
     </select>
     <input type="checkbox" id="mirror">
     <label for="mirror">鏡像文字</label>
 
-    <label for="fontSize">字體大小：</label>
-    <input type="number" id="fontSize" value="40" min="10" max="100">
+    <label for="fontSize">字體大小：
+    <input type="number" id="fontSize" value="40" min="10" max="100"></label>
 
-    <label for="speed">滾動速度：</label>
-    <input type="number" id="speed" value="30" min="10" max="100"> px/s
+    <label for="speed">滾動速度：
+    <input type="number" id="speed" value="30" min="10" max="100"></label>
 </div>
 
 <div id="lineSettings">
-    <label for="fontColor">字體顏色：</label>
-    <input type="color" id="fontColor" value="#FFFFFF">
+    <label for="fontColor">字體顏色：
+    <input type="color" id="fontColor" value="#FFFFFF"></label>
 
-    <label for="bgColor">背景顏色：</label>
-    <input type="color" id="bgColor" value="#000000">
+    <label for="bgColor">背景顏色：
+    <input type="color" id="bgColor" value="#000000"></label>
 
-    <label for="refLineColor">參考線顏色：</label>
-    <input type="color" id="refLineColor" value="#FF0000">
+    <label for="refLineColor">參考線顏色：
+    <input type="color" id="refLineColor" value="#FF0000"></label>
     <label for="refLineWidth">參考線粗細：
     <select id="refLineWidth">
         <option value="1">1px</option>
@@ -245,7 +254,6 @@
     </select></label>
 
 </div>
-
 
     <button id="startBtn">開始滾動</button>
 
