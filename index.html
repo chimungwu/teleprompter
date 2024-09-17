@@ -18,45 +18,94 @@
         #controls label {
             display: block;
             margin-top: 10px;
+            font-size: 14px; /* 字體大小調小 */
+            color: #333;
         }
+
         #controls input, #controls select, #controls button, #controls textarea {
             width: 100%;
             margin-top: 5px;
+            padding: 8px; /* 縮小內邊距 */
+            font-size: 14px; /* 字體大小縮小 */
         }
-        #inputText {
-            height: 150px;
-            resize: vertical;
+
+        #controls input[type="color"] {
+            width: 50px; /* 縮小顏色選擇器的寬度 */
+            height: 30px; /* 調整顏色選擇器的高度 */
+            padding: 0;
+            margin-right: 5px;
         }
-#display {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
-    color: #fff;
-    font-size: 50px;
-    display: none;
-    justify-content: flex-start; /* 從頂部開始排列 */
-    align-items: flex-start; /* 從頂部開始排列 */
-    text-align: center;
-}
 
-#display.mirror {
-    transform: scaleX(-1);
-}
+        #controls input[type="number"] {
+            width: 80px; /* 縮小數字選項 */
+            padding: 5px; /* 減少內邊距 */
+        }
 
-/* 文字容器 */
-#textContainer {
-    display: block;
-}
+        #controls select {
+            width: auto; /* 根據內容自動調整寬度 */
+            padding: 5px; /* 減少內邊距 */
+        }
 
-#text {
-    white-space: pre-wrap;
-    line-height: 1.5;
-    direction: ltr; /* 保持從左到右的閱讀方向 */
-}
+        #controls button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #controls button:hover {
+            background-color: #0056b3;
+        }
+
+        #mirror {
+            margin-right: 5px;
+        }
+
+        #controls label[for="mirror"] {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            font-size: 16px; /* 調整鏡像文字的勾選標籤大小 */
+            margin-top: 20px;
+        }
+
+        #mirror:checked + label {
+            color: #007bff; /* 選中時更醒目的顏色 */
+        }
+
+        #display {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-size: 50px;
+            display: none;
+            justify-content: flex-start; /* 從頂部開始排列 */
+            align-items: flex-start; /* 從頂部開始排列 */
+            text-align: center;
+        }
+
+        #display.mirror {
+            transform: scaleX(-1);
+        }
+
+        /* 文字容器 */
+        #textContainer {
+            display: block;
+        }
+
+        #text {
+            white-space: pre-wrap;
+            line-height: 1.5;
+            direction: ltr; /* 保持從左到右的閱讀方向 */
+        }
 
         #referenceLine {
             position: absolute;
@@ -66,6 +115,7 @@
             border-top: 2px solid red;
             pointer-events: none;
         }
+
         #controlButtons {
             position: fixed;
             bottom: 20px;
@@ -74,6 +124,7 @@
             display: none; /* 隱藏字體調整按鈕，全螢幕保持簡潔 */
             gap: 20px;
         }
+
         #controlButtons button {
             padding: 10px 20px;
             font-size: 16px;
@@ -96,18 +147,27 @@
 
     <label for="bgColor">背景顏色：</label>
     <input type="color" id="bgColor" value="#000000">
+
     <label for="refLineColor">參考線顏色：</label>
     <input type="color" id="refLineColor" value="#FF0000">
+
     <label for="refLineWidth">參考線粗細：</label>
     <input type="number" id="refLineWidth" value="2" min="1" max="10"> px
+
     <label for="fontColor">字體顏色：</label>
     <input type="color" id="fontColor" value="#FFFFFF">
+
     <label for="fontSize">字體大小：</label>
     <input type="number" id="fontSize" value="40" min="10" max="100"> px
+
     <label for="speed">滾動速度：</label>
     <input type="number" id="speed" value="30" min="10" max="100"> px/s
-    <label for="mirror">鏡像文字：</label>
-    <input type="checkbox" id="mirror">
+
+    <label for="mirror">
+        <input type="checkbox" id="mirror">
+        鏡像文字
+    </label>
+
     <button id="startBtn">開始滾動</button>
 </div>
 
