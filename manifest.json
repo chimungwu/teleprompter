@@ -1,16 +1,20 @@
 {
   "name": "簡單提詞器",
   "short_name": "提詞器",
-  "start_url": "/teleprompter/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007bff",
-  "description": "A simple and modern teleprompter web app",
   "icons": [
+    {
+      "src": "/teleprompter/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
     {
       "src": "/teleprompter/icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "start_url": "/index.html",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "theme_color": "#ffffff"
 }
