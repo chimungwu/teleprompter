@@ -118,22 +118,32 @@ body {
             display: none;
         }
 
-        /* 按鈕未選中時的樣式 */
-        #controls label[for="mirror"] {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ccc;
-            color: #000;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-align: center;
-        }
+    /* 按鈕未選中時的樣式 */
+    #controls label[for="mirror"], #controls label[for="showTimer"] {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ccc;
+        color: #000;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        text-align: center;
+        margin-right: 10px;
+    }
 
-#mirror:checked + label {
-    background-color: #28a745; /* 綠色 */
-    color: #fff; /* 白色 */
-}
+    #mirror:checked + label[for="mirror"] {
+        background-color: #28a745; /* 綠色 */
+        color: #fff; /* 白色 */
+    }
+
+    #showTimer {
+        display: none;
+    }
+
+    #showTimer:checked + label[for="showTimer"] {
+        background-color: #28a745; /* 綠色 */
+        color: #fff; /* 白色 */
+    }
 
 #openModalBtn {
     display: inline-block; /* 保持按鈕為內聯塊，防止自適應寬度 */
@@ -333,10 +343,13 @@ body {
         <option value="Arial, sans-serif">Arial</option>
         <option value="'Times New Roman', serif">Times New Roman</option>
         <option value="'Courier New', monospace">Courier New</option>
-    </select> 
+       </label>
 
-   <input type="checkbox" id="mirror">
-    <label for="mirror">鏡像文字</label>
+        <input type="checkbox" id="mirror">
+        <label for="mirror">鏡像文字</label>
+
+        <input type="checkbox" id="showTimer" checked>
+        <label for="showTimer">顯示計時器</label>
 
     <label for="fontSize">字體大小：
     <input type="number" id="fontSize" value="40" min="10" max="100"> px</label>
