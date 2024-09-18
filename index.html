@@ -151,7 +151,6 @@
     display: none;
     justify-content: flex-start;
     align-items: flex-start;
-    z-index: 10;
 }
 
         #display.mirror {
@@ -228,29 +227,6 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 3;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px; /* 設置對話框的最大寬度 */
-    max-height: 80%; /* 限制對話框高度，使其不超出視口 */
-    overflow-y: auto; /* 启用垂直滾動條 */
-    overflow-x: hidden; /* 禁止水平滾動條 */
-}
-
-.modal {
-  display: none;
-  position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
@@ -282,6 +258,7 @@
   text-decoration: none;
   cursor: pointer;
 }
+
     </style>
 </head>
 <body>
@@ -322,7 +299,7 @@
     <label for="mirror">鏡像文字</label>
 
     <label for="fontSize">字體大小：
-    <input type="number" id="fontSize" value="40" min="10" max="100"> px</label>
+    <input type="number" id="fontSize" value="40" min="10" max="100"></label>
 
     <label for="speed">滾動速度：
     <input type="number" id="speed" value="30" min="10" max="100"> px/s</label>
@@ -356,14 +333,13 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>說明文件</h2>
-    <p>這裡是簡易提詞機的詳細說明</p>
+    <p>這裡是控制提詞機的詳細說明，包含各項操作方式與步驟...</p>
         <ul>
-            <li><strong>文字輸入：</strong>在文本框中輸入想要提詞滾動顯示的文字。</li>
-            <li><strong>設定：</strong>設定字體、顏色、大小、背景顏色、參考線粗細等。</li>
+            <li><strong>文字輸入：</strong>在文本框中輸入你想要提詞滾動顯示的文字。</li>
+            <li><strong>設定：</strong>可改變字體、大小、背景顏色、參考線等。</li>
             <li><strong>螢幕操作：</strong>按下「開始滾動」按鈕後進入全螢幕模式。</li>
-            <li><strong>鏡像：</strong>如使用提詞螢幕可以按下鏡像讓文字鏡像反射。</li>
-            <li><strong>鍵盤操作：</strong>使用空白鍵暫停/繼續、ESC離開、方向鍵上下左右控制位置速度。</li>
-            <li><strong>藍芽搖桿操作：</strong>如連接藍芽搖桿，可以使用方向鍵上下左右控制位置速度，A暫停、B離開。</li>
+            <li><strong>鍵盤操作：</strong>使用空白鍵暫停/繼續，方向鍵上下左右控制滾動位置速度。</li>
+            <li><strong>Gamepad 操作：</strong>連接藍芽搖桿，可以使用方向鍵上下左右控制滾動位置速度。</li>
         </ul>
   </div>
 </div>
@@ -386,7 +362,6 @@
     <button id="pauseBtn">暫停</button>
     <button id="exitBtn">退出全屏</button>
 </div>
-
 <script>
 var _0x2b371e=_0x4b0e;function _0x4b0e(_0xcf159c,_0x367143){var _0xccb410=_0xccb4();return _0x4b0e=function(_0x4b0e1c,_0x1bf993){_0x4b0e1c=_0x4b0e1c-0x18d;var _0x252f6e=_0xccb410[_0x4b0e1c];return _0x252f6e;},_0x4b0e(_0xcf159c,_0x367143);}function _0xccb4(){var _0x45e97d=['2347560tlDviS','toString','321704ooBAoV','42116HCDKnH','||document|style|getElementById||display|text|isPaused|currentTranslateY|addEventListener|pauseBtn|const|function||transform|isDragging|currentSpeed|lastTimestamp|px|textContent|translateY|none||value|console|log||mirror||countdown|countdownInterval|if|case|animationFrame|exitFullScreen|window|performance|now|break|modal|fontFamily|fontSize|textContainer|referenceLine|controlButtons|let|scrollText|return|requestAnimationFrame|clientY|click|classList|inputText|bgColor|fontColor|speed|refLineColor|refLineWidth|startBtn|exitBtn|dragStartY||dragStartTranslateY|offsetHeight|onDragStart|onDragMove|onDragEnd|block|innerText|currentGamepad|onclick|startPosition|1e3|mousedown|type|touches|getComputedStyle|new|DOMMatrixReadOnly|m42|body|userSelect|mousemove|enterFullScreen|requestFullscreen|mozRequestFullScreen|webkitRequestFullscreen|msRequestFullscreen|exitFullscreen|mozCancelFullScreen|webkitExitFullscreen|msExitFullscreen|controls|cancelAnimationFrame|clearInterval|null|flex|add|remove|Math|max|Gamepad|gamepad|checkGamepadInput|axes|buttons|pressed|btn|span|void|preventDefault|auto|documentElement|color|backgroundColor|borderTopColor|borderTopWidth|setInterval|checked|0px|parseInt|setTimeout|100|mouseup|touchstart|touchmove|touchend|keydown|switch|code|Space|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Escape|gamepadconnected|connected|gamepaddisconnected|disconnected|navigator|getGamepads|index|var|myModal|openModalBtn|getElementsByClassName|close|target','c\x20R=2.4(\x22R\x22),F=2.4(\x22F\x22),S=2.4(\x22S\x22),T=2.4(\x22T\x22),G=2.4(\x22G\x22),U=2.4(\x22U\x22),s=2.4(\x22s\x22),V=2.4(\x22V\x22),W=2.4(\x22W\x22),X=2.4(\x22X\x22),6=2.4(\x226\x22),H=2.4(\x22H\x22),7=2.4(\x227\x22),I=2.4(\x22I\x22),b=2.4(\x22b\x22),Y=2.4(\x22Y\x22),J=2.4(\x22J\x22);K\x20y,8=!1,g=!1,Z=0,11=0,h,1a,9,i;c\x20u=2.4(\x22u\x22);K\x20v;d\x20L(e){w(8||g)M\x20i=e,1M(y=N(L));c\x20t=e-i;i=e;c\x20n=t*h/1b;9-=n,7.3.f=`l(${9}j)`,9+7.12>0?y=N(L):z()}d\x2013(e){w(!8)M;g=!0,Z=\x221c\x22===e.1d?e.O:e.1e[0].O;c\x20t=A.1f(7),n=1g\x201h(t.f);11=n.1i,e.1N(),2.1j.3.1k=\x22m\x22}d\x2014(e){w(!g)M;c\x20t=\x221l\x22===e.1d?e.O:e.1e[0].O,n=t-Z,r=11+n;7.3.f=`l(${r}j)`}d\x2015(e){w(!g)M;g=!1;c\x20t=A.1f(7),n=1g\x201h(t.f);9=n.1i,2.1j.3.1k=\x221O\x22}d\x201m(){c\x20e=2.1P;e.1n?e.1n():e.1o?e.1o():e.1p?e.1p():e.1q&&e.1q()}d\x20z(){2.1r?2.1r():2.1s?2.1s():2.1t?2.1t():2.1u&&2.1u(),6.3.6=\x22m\x22,J.3.6=\x22m\x22,2.4(\x221v\x22).3.6=\x2216\x22,1w(y),v&&(1x(v),v=1y),u.3.6=\x22m\x22,8=!1,g=!1,b.k=\x22暂停\x22}X.a(\x22P\x22,()=>{6.3.6=\x221z\x22,J.3.6=\x221z\x22,2.4(\x221v\x22).3.6=\x22m\x22,1m(),7.3.F=F.o,7.3.G=G.o+\x22j\x22,7.3.1Q=T.o,7.17=R.o,6.3.1R=S.o,I.3.1S=V.o,I.3.1T=`${W.o}j`,u.3.6=\x2216\x22;K\x20e=5;u.17=e,v=1U(()=>{e-=1,u.17=e,0===e&&(1x(v),u.3.6=\x22m\x22,s.1V?(6.Q.1A(\x22s\x22),H.Q.1A(\x22s\x22)):(6.Q.1B(\x22s\x22),H.Q.1B(\x22s\x22)),7.3.f=\x22l(1W)\x22,7.12,8=!1,g=!1,h=1X(U.o),1Y(()=>{c\x20e=6.12,t=.5*e;9=1a=t,7.3.f=`l(${9}j)`,i=B.C(),N(L)},1Z))},1b)}),b.a(\x22P\x22,()=>{8?(8=!1,b.k=\x22暫停\x22,i=B.C()):(8=!0,b.k=\x22繼續\x22)}),Y.a(\x22P\x22,()=>{1w(y),z()}),6.a(\x22P\x22,()=>{g||(8?(8=!1,b.k=\x22暫停\x22,i=B.C()):(8=!0,b.k=\x22繼續\x22))}),7.a(\x221c\x22,13),2.a(\x221l\x22,14),2.a(\x2220\x22,15),7.a(\x2221\x22,13),2.a(\x2222\x22,14),2.a(\x2223\x22,15),2.a(\x2224\x22,e=>{25(e.26){x\x2227\x22:8?(8=!1,b.k=\x22暫停\x22,i=B.C()):(8=!0,b.k=\x22繼續\x22);D;x\x2228\x22:9+=10,7.3.f=`l(${9}j)`;D;x\x2229\x22:9-=10,7.3.f=`l(${9}j)`;D;x\x222a\x22:p.q(\x22當前滾動速度：\x22,h=1C.1D(h-10,10));D;x\x222b\x22:p.q(\x22當前滾動速度：\x22,h+=10);D;x\x222c\x22:z()}}),A.a(\x222d\x22,e=>{p.q(\x221E\x202e:\x22,e.1F)}),A.a(\x222f\x22,e=>{p.q(\x221E\x202g:\x22,e.1F)});K\x2018=1y;d\x201G(){w(18){c\x20e=2h.2i(),t=e[18.2j];w(t){c\x20e=t.1H[1],n=t.1H[0];e<-.5?(9+=10,7.3.f=`l(${9}j)`,p.q(\x22搖桿向上，當前位置：\x22,9)):e>.5&&(9-=10,7.3.f=`l(${9}j)`,p.q(\x22搖桿向下，當前位置：\x22,9)),n<-.5?p.q(\x22滾動速度減少，當前速度：\x22,h=1C.1D(h-10,10)):n>.5&&p.q(\x22滾動速度增加，當前速度：\x22,h+=10),t.1I[0].1J&&(8?(8=!1,b.k=\x22暫停\x22,i=B.C()):(8=!0,b.k=\x22繼續\x22)),t.1I[1].1J&&z()}}N(1G)}2k\x20E=2.4(\x222l\x22),1K=2.4(\x222m\x22),1L=2.2n(\x222o\x22)[0];1K.19=d(){E.3.6=\x2216\x22},1L.19=d(){E.3.6=\x22m\x22},A.19=d(e){e.2p==E&&(E.3.6=\x22m\x22)};','465066wBtrdh','77965bXvjMg','\x5cw+','3sSmeAH','35UttJVT','584572XgSDhA','split','replace','fromCharCode','273841QaZzzh'];_0xccb4=function(){return _0x45e97d;};return _0xccb4();}(function(_0x28bbac,_0x3b0c53){var _0x2c0ebf=_0x4b0e,_0x23adc4=_0x28bbac();while(!![]){try{var _0x4d7d2d=-parseInt(_0x2c0ebf(0x198))/0x1+-parseInt(_0x2c0ebf(0x19c))/0x2*(-parseInt(_0x2c0ebf(0x192))/0x3)+-parseInt(_0x2c0ebf(0x194))/0x4+parseInt(_0x2c0ebf(0x190))/0x5+parseInt(_0x2c0ebf(0x18f))/0x6+parseInt(_0x2c0ebf(0x193))/0x7*(parseInt(_0x2c0ebf(0x19b))/0x8)+parseInt(_0x2c0ebf(0x199))/0x9;if(_0x4d7d2d===_0x3b0c53)break;else _0x23adc4['push'](_0x23adc4['shift']());}catch(_0x2f16e2){_0x23adc4['push'](_0x23adc4['shift']());}}}(_0xccb4,0x261b3),eval(function(_0x53b6fa,_0x231d9a,_0x35b54f,_0x49210c,_0x217908,_0x5d5f3e){var _0x1b3cc5=_0x4b0e;_0x217908=function(_0x4bc610){var _0x3ae9ae=_0x4b0e;return(_0x4bc610<_0x231d9a?'':_0x217908(parseInt(_0x4bc610/_0x231d9a)))+((_0x4bc610=_0x4bc610%_0x231d9a)>0x23?String[_0x3ae9ae(0x197)](_0x4bc610+0x1d):_0x4bc610[_0x3ae9ae(0x19a)](0x24));};if(!''[_0x1b3cc5(0x196)](/^/,String)){while(_0x35b54f--)_0x5d5f3e[_0x217908(_0x35b54f)]=_0x49210c[_0x35b54f]||_0x217908(_0x35b54f);_0x49210c=[function(_0x13071f){return _0x5d5f3e[_0x13071f];}],_0x217908=function(){var _0xd7f843=_0x1b3cc5;return _0xd7f843(0x191);},_0x35b54f=0x1;};while(_0x35b54f--)if(_0x49210c[_0x35b54f])_0x53b6fa=_0x53b6fa[_0x1b3cc5(0x196)](new RegExp('\x5cb'+_0x217908(_0x35b54f)+'\x5cb','g'),_0x49210c[_0x35b54f]);return _0x53b6fa;}(_0x2b371e(0x18e),0x3e,0x96,_0x2b371e(0x18d)[_0x2b371e(0x195)]('|'),0x0,{})));
 </script>
