@@ -236,27 +236,34 @@
 }
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 10px;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* 設置對話框的最大寬度 */
+    max-height: 80%; /* 限制對話框高度，使其不超出視口 */
+    overflow-y: auto; /* 启用垂直滾動條 */
+    overflow-x: hidden; /* 禁止水平滾動條 */
+}
+
+.modal-body {
+    max-height: 400px; /* 控制說明內容的最大高度 */
+    overflow-y: auto; /* 啟用垂直滾動條 */
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
     </style>
