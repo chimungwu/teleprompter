@@ -4,7 +4,7 @@
 <!-- Open Graph meta tags -->
     <meta property="og:title" content="簡易提詞器">
     <meta property="og:description" content="這是一個簡易的提詞機網頁">
-    <meta property="og:image" content="https://chimungwu.github.io/teleprompter/icon.png">
+    <meta property="og:image" content="https://chimungwu.github.io/teleprompter/Icon.png">
     <meta property="og:url" content="https://chimungwu.github.io/teleprompter/">
     <meta property="og:type" content="website">
     <link rel='manifest' href='./manifest.json'>
@@ -165,11 +165,6 @@
         color: #fff;
     }
 
-    #lineSettings {
-        align-items: center;
-        gap: 10px;
-    }
-
     #display {
         position: fixed;
         top: 0;
@@ -207,7 +202,7 @@
 
 /* 镜像模式下的倒数计时样式 */
 #countdown.mirror  {
-    transform: translate(-50%, -50%) scale(-1,1);  /* 左右翻轉倒數計時的數字 */
+    transform: translate(-50%, -50%) scaleX(-1);  /* 左右翻轉倒數計時的數字 */
 }
 
 
@@ -289,28 +284,21 @@
 #timer {
     display: none;
     position: fixed;
-    top: 10px;              /* 保持在頂部 */
-    left: 50%;                 /* 讓計時器的左邊緣在螢幕中間 */
+    top: 0px;              /* 緊貼頂部 */
+    left: 50%;             /* 讓計時器的左邊緣在螢幕中間 */
     transform: translateX(-50%); /* 將計時器水平置中 */
-    font-size: 48px;           /* 增加字體大小 */
-    color: #FFA500;            /* 橙色 */
+    font-size: 48px;       /* 增加字體大小 */
+    color: #FFA500;        /* 橙色 */
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;        /* 增加內部間距 */
-    border-radius: 10px;       /* 調整圓角 */
+    padding: 10px 20px;    /* 增加內部間距 */
+    border-radius: 10px;   /* 調整圓角 */
     z-index: 1000;
     font-family: Arial, sans-serif;
 }
 
-/* 移除多餘的鏡像樣式 */
-.mirror #textContainer {
-    transform: none;
-}
 
-.mirror #text {
-    transform: none;
-}
+</style>
 
-    </style>
 </head>
 <body>
 <div id="controls">
@@ -325,17 +313,14 @@
         簡易提詞器
     </h1>
     <p style="text-align: center;">
-        ver.2024/09/19 <!-- 說明文件按鈕 -->
+        ver.2024/09/20 <!-- 說明文件按鈕 -->
         <input type="button" id="openModalBtn" value="說明文件"><br>
         程式維護：<a href="https://www.facebook.com/profile.php?id=61557246475372" target="_blank">仨寶爸中醫博士吳啓銘</a>
     </p>
 
 <textarea id="inputText" placeholder="在文字框中輸入您想顯示的文字，點擊「開始滾動」按鈕即可開始提詞顯示。
 建議使用手機瀏覽器開啟並將本頁加入主畫面，以獲得最佳使用體驗！" oninput="this.placeholder = ''"></textarea>
-
-    <div id="controls">
         <button id="startBtn">開始滾動</button>
-
         <label for="fontFamily">選擇字體：
             <select id="fontFamily">
                 <option value="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', 'Heiti TC', 'WenQuanYi Micro Hei', sans-serif">黑體字</option>
@@ -346,37 +331,28 @@
                 <option value="'Courier New', monospace">Courier New</option>
             </select> 
         </label>
-
         <input type="checkbox" id="mirror">
         <label for="mirror">鏡像文字</label>
-
         <input type="checkbox" id="showTimer" checked>
         <label for="showTimer">顯示計時器</label>
-
         <label for="fontSize">字體大小：
             <input type="number" id="fontSize" value="30" min="10" max="100"> px
         </label>
-
         <label for="speed">滾動速度：
             <input type="number" id="speed" value="20" min="10" max="100"> px/s
         </label>
-    </div>
-
-    <div id="lineSettings">
         <label for="fontColor">字體顏色：
             <input type="color" id="fontColor" value="#FFFFFF">
         </label>
-
         <label for="bgColor">背景顏色：
             <input type="color" id="bgColor" value="#000000">
         </label>
-
         <label for="refLineColor">參考線顏色：
             <input type="color" id="refLineColor" value="#FF0000">
         </label>
-
         <label for="refLineWidth">參考線粗細：
             <select id="refLineWidth">
+                <option value="0">隱藏</option>
                 <option value="1">1px</option>
                 <option value="2">2px</option>
                 <option value="3" selected>3px</option>
@@ -387,7 +363,6 @@
             </select>
         </label>
     </div>
-
 <!-- 說明文件對話框 -->
 <div id="myModal" class="modal">
   <div class="modal-content">
@@ -404,32 +379,24 @@
         </ul>
   </div>
 </div>
-
 </div>
-
 <div id="display">
     <div id="textContainer">
         <div id="text"></div>
     </div>
-
     <div id="referenceLine"></div>
 <!-- 計時器 -->
 <div id="timer"></div>
-
+  <span id="timer-content"></span>
 </div>
-
 <!-- 倒數計時 -->
 <div id="countdown">3</div>
-
-
 <div id="controlButtons">
     <button id="pauseBtn">暫停</button>
     <button id="exitBtn">退出全屏</button>
 </div>
-
 <script>
-var _0x3d8112=_0x5c90;(function(_0x1994e9,_0x4b4d08){var _0x2a28a0=_0x5c90,_0x5116b0=_0x1994e9();while(!![]){try{var _0x189d32=parseInt(_0x2a28a0(0x14c))/0x1+parseInt(_0x2a28a0(0x142))/0x2*(-parseInt(_0x2a28a0(0x146))/0x3)+-parseInt(_0x2a28a0(0x147))/0x4+-parseInt(_0x2a28a0(0x144))/0x5+parseInt(_0x2a28a0(0x14a))/0x6+parseInt(_0x2a28a0(0x148))/0x7+parseInt(_0x2a28a0(0x14f))/0x8;if(_0x189d32===_0x4b4d08)break;else _0x5116b0['push'](_0x5116b0['shift']());}catch(_0x293c17){_0x5116b0['push'](_0x5116b0['shift']());}}}(_0x3d37,0x9974b),eval(function(_0x5cc065,_0x415dc5,_0x509f61,_0x30999b,_0x45723b,_0x2aea99){var _0x2299bb=_0x5c90;_0x45723b=function(_0x2c3578){var _0x1e308f=_0x5c90;return(_0x2c3578<_0x415dc5?'':_0x45723b(parseInt(_0x2c3578/_0x415dc5)))+((_0x2c3578=_0x2c3578%_0x415dc5)>0x23?String[_0x1e308f(0x14e)](_0x2c3578+0x1d):_0x2c3578[_0x1e308f(0x14b)](0x24));};if(!''[_0x2299bb(0x145)](/^/,String)){while(_0x509f61--)_0x2aea99[_0x45723b(_0x509f61)]=_0x30999b[_0x509f61]||_0x45723b(_0x509f61);_0x30999b=[function(_0x562fb9){return _0x2aea99[_0x562fb9];}],_0x45723b=function(){var _0x538a39=_0x2299bb;return _0x538a39(0x149);},_0x509f61=0x1;};while(_0x509f61--)if(_0x30999b[_0x509f61])_0x5cc065=_0x5cc065[_0x2299bb(0x145)](new RegExp('\x5cb'+_0x45723b(_0x509f61)+'\x5cb','g'),_0x30999b[_0x509f61]);return _0x5cc065;}(_0x3d8112(0x143),0x3e,0xa6,'||document|style|display||getElementById|text|isPaused|currentTranslateY||function|addEventListener|now||const|mirror|pauseBtn|none|countdown|transform|timerElement|isDragging||currentSpeed|lastTimestamp|px|textContent|Date||console|log|value|classList|pauseStartTime|totalPausedTime|translateY|currentGamepad|countdownInterval|return|case|showTimer|animationFrame|if|window|block|performance|break|modal|fontFamily|fontSize|referenceLine|controlButtons|elapsedTime|innerText|Math|scrollText|requestAnimationFrame|clientY|exitFullScreen|index|checked||click|add|remove|gamepad|inputText|bgColor|fontColor|speed|refLineColor|refLineWidth|startBtn|exitBtn|let|dragStartY|dragStartTranslateY|timerInterval|timerStartTime|1e3|pad|onDragStart|onDragMove|onDragEnd|clearInterval|checkGamepadInput|onclick|textContainer|startPosition|startTimer|setInterval|updateTimer|100|formatTime|floor|60|offsetHeight|mousedown|type|touches|getComputedStyle|new|DOMMatrixReadOnly|m42|body|userSelect|mousemove|enterFullScreen|requestFullscreen|mozRequestFullScreen|webkitRequestFullscreen|msRequestFullscreen|exitFullscreen|mozCancelFullScreen|webkitExitFullscreen|msExitFullscreen|controls|cancelAnimationFrame|null|axes|max|buttons|pressed|flex|Gamepad|btn|span|timer|void|preventDefault|auto|documentElement|navigator|getGamepads|change|color|backgroundColor|borderTopColor|borderTopWidth|scale|parseInt|setTimeout|mouseup|touchstart|touchmove|touchend|keydown|switch|code|Space|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Escape|gamepadconnected|connected|gamepaddisconnected|disconnected|var|myModal|openModalBtn|getElementsByClassName|close|target'[_0x3d8112(0x14d)]('|'),0x0,{})));function _0x5c90(_0x16fe53,_0x4f1095){var _0x3d37ee=_0x3d37();return _0x5c90=function(_0x5c9059,_0x40b7e4){_0x5c9059=_0x5c9059-0x142;var _0x4df164=_0x3d37ee[_0x5c9059];return _0x4df164;},_0x5c90(_0x16fe53,_0x4f1095);}function _0x3d37(){var _0x5c8440=['split','fromCharCode','9707632riADVN','97108syldVT','f\x2015=2.6(\x2215\x22),N=2.6(\x22N\x22),16=2.6(\x2216\x22),17=2.6(\x2217\x22),O=2.6(\x22O\x22),18=2.6(\x2218\x22),g=2.6(\x22g\x22),F=2.6(\x22F\x22),19=2.6(\x2219\x22),1a=2.6(\x221a\x22),1b=2.6(\x221b\x22),4=2.6(\x224\x22),1q=2.6(\x221q\x22),7=2.6(\x227\x22),P=2.6(\x22P\x22),h=2.6(\x22h\x22),1c=2.6(\x221c\x22),Q=2.6(\x22Q\x22),l=2.6(\x2224\x22);1d\x20G,8=!1,m=!1,1e=0,1f=0,o,1r,9,p;f\x20j=2.6(\x22j\x22);1d\x20C,1g,1h,R=0,y,z=0;b\x201s(){1h=s.d(),z=0,1g=1t(1u,1v)}b\x201u(){8||(R=s.d()-1h-z,l.S=1w(T.1x(R/1i)))}b\x201w(e){f\x20t=T.1x(e/1y),n=e%1y;D`${1j(t)}:${1j(n)}`}b\x201j(e){D\x20e<10?\x220\x22+e:e}b\x20U(e){H(8||m)D\x20p=e,25(G=V(U));f\x20t=e-p;p=e;f\x20n=t*o/1i;9-=n,7.3.k=`A(${9}q)`,9+7.1z>0&&(G=V(U))}b\x201k(e){H(!8)D;m=!0,1e=\x221A\x22===e.1B?e.W:e.1C[0].W;f\x20t=I.1D(7),n=1E\x201F(t.k);1f=n.1G,e.26(),2.1H.3.1I=\x22i\x22}b\x201l(e){H(!m)D;f\x20t=\x221J\x22===e.1B?e.W:e.1C[0].W,n=t-1e,a=1f+n;7.3.k=`A(${a}q)`}b\x201m(e){H(!m)D;m=!1;f\x20t=I.1D(7),n=1E\x201F(t.k);9=n.1G,2.1H.3.1I=\x2227\x22}b\x201K(){f\x20e=2.28;e.1L?e.1L():e.1M?e.1M():e.1N?e.1N():e.1O&&e.1O()}b\x20X(){2.1P?2.1P():2.1Q?2.1Q():2.1R?2.1R():2.1S&&2.1S(),4.3.4=\x22i\x22,Q.3.4=\x22i\x22,2.6(\x221T\x22).3.4=\x22J\x22,1U(G),C&&(1n(C),C=1V),j.3.4=\x22i\x22,8=!1,m=!1,h.r=\x22暫停\x22,1n(1g),l.3.4=\x22i\x22,R=0,z=0}b\x201o(){f\x20e=29.2a();H(B&&e[B.Y]){f\x20t=e[B.Y],n=t.1W[1],a=t.1W[0];n<-.5?(9+=10,7.3.k=`A(${9}q)`,u.v(\x22搖桿向上，當前位置：\x22,9)):n>.5&&(9-=10,7.3.k=`A(${9}q)`,u.v(\x22搖桿向下，當前位置：\x22,9)),a<-.5?u.v(\x22滾動速度減少，當前速度：\x22,o=T.1X(o-10,10)):a>.5&&u.v(\x22滾動速度增加，當前速度：\x22,o+=10),t.1Y[0].1Z&&(8?(8=!1,h.r=\x22暫停\x22,p=K.d()):(8=!0,h.r=\x22繼續\x22)),t.1Y[1].1Z&&X()}V(1o)}l.3.4=\x22i\x22,F.c(\x222b\x22,()=>{F.Z?l.3.4=\x22J\x22:l.3.4=\x22i\x22}),1b.c(\x2211\x22,()=>{4.3.4=\x2220\x22,Q.3.4=\x2220\x22,2.6(\x221T\x22).3.4=\x22i\x22,1K(),7.3.N=N.w,7.3.O=O.w+\x22q\x22,7.3.2c=17.w,7.S=15.w,4.3.2d=16.w,P.3.2e=19.w,P.3.2f=`${1a.w}q`,j.3.4=\x22J\x22;1d\x20e=5;j.S=e,g.Z?j.x.12(\x22g\x22):j.x.13(\x22g\x22),C=1t(()=>{e-=1,j.S=e,g.Z?(j.x.12(\x22g\x22),4.x.12(\x22g\x22),7.x.12(\x22g\x22),l.3.k=\x222g(1,1)\x22):(j.x.13(\x22g\x22),4.x.13(\x22g\x22),7.x.13(\x22g\x22)),0===e&&(1n(C),j.3.4=\x22i\x22,F.Z?l.3.4=\x22J\x22:l.3.4=\x22i\x22,8=!1,m=!1,o=2h(18.w),1s(),2i(()=>{f\x20e=4.1z,t=.5*e;9=1r=t,7.3.k=`A(${9}q)`,p=K.d(),V(U)},1v))},1i)}),h.c(\x2211\x22,()=>{8?(8=!1,h.r=\x22暫停\x22,p=K.d(),z+=s.d()-y):(8=!0,h.r=\x22繼續\x22,y=s.d())}),1c.c(\x2211\x22,()=>{1U(G),X()}),4.c(\x2211\x22,()=>{m||(8?(8=!1,h.r=\x22暫停\x22,p=K.d(),z+=s.d()-y):(8=!0,h.r=\x22繼續\x22,y=s.d()))}),7.c(\x221A\x22,1k),2.c(\x221J\x22,1l),2.c(\x222j\x22,1m),7.c(\x222k\x22,1k),2.c(\x222l\x22,1l),2.c(\x222m\x22,1m),2.c(\x222n\x22,e=>{2o(e.2p){E\x222q\x22:8?(8=!1,h.r=\x22暫停\x22,p=K.d(),z+=s.d()-y):(8=!0,h.r=\x22繼續\x22,y=s.d());L;E\x222r\x22:9+=10,7.3.k=`A(${9}q)`;L;E\x222s\x22:9-=10,7.3.k=`A(${9}q)`;L;E\x222t\x22:u.v(\x22當前滾動速度：\x22,o=T.1X(o-10,10));L;E\x222u\x22:u.v(\x22當前滾動速度：\x22,o+=10);L;E\x222v\x22:X()}}),I.c(\x222w\x22,e=>{u.v(\x2221\x202x:\x22,e.14),B=e.14,1o()}),I.c(\x222y\x22,e=>{u.v(\x2221\x202z:\x22,e.14),B&&B.Y===e.14.Y&&(B=1V)});2A\x20M=2.6(\x222B\x22),22=2.6(\x222C\x22),23=2.2D(\x222E\x22)[0];22.1p=b(){M.3.4=\x22J\x22},23.1p=b(){M.3.4=\x22i\x22},I.1p=b(e){e.2F==M&&(M.3.4=\x22i\x22)};','5662075SFpGdo','replace','39xXpbQe','345556mfsjnA','2708055PcEwtu','\x5cw+','4856742avjjDT','toString','68785cFkSsd'];_0x3d37=function(){return _0x5c8440;};return _0x3d37();}
+function _0x1c62(){var _0x243fdf=['383056DurxGS','74583JGQjYU','798YTjEFy','2dRBkcu','1968681GCoMss','696McukMT','fromCharCode','||document|style|display||getElementById|text|isPaused|currentTranslateY||function|addEventListener|now||const|mirror|pauseBtn|none|countdown|transform|isDragging|currentSpeed||lastTimestamp|px|textContent|timerElement|Date||value|classList|console|log|pauseStartTime|totalPausedTime|translateY|countdownInterval|return|if|case|showTimer|animationFrame|window|block|performance|break|modal|fontFamily|fontSize|referenceLine|controlButtons|let|elapsedTime|innerText|Math|scrollText|requestAnimationFrame|clientY|exitFullScreen|checked|click||add|remove|inputText|bgColor|fontColor|speed|refLineColor|refLineWidth|startBtn|exitBtn|timer|dragStartY|dragStartTranslateY|timerInterval|timerStartTime|1e3|pad|onDragStart|onDragMove|onDragEnd|clearInterval|currentGamepad|onclick|textContainer|startPosition|startTimer|setInterval|updateTimer|100|formatTime|floor|60|offsetHeight|mousedown|type|touches|getComputedStyle|new|DOMMatrixReadOnly|m42|body|userSelect|mousemove|enterFullScreen|requestFullscreen|mozRequestFullScreen|webkitRequestFullscreen|msRequestFullscreen|exitFullscreen|mozCancelFullScreen|webkitExitFullscreen|msExitFullscreen|controls|cancelAnimationFrame|null|flex|content|scaleX|max|Gamepad|gamepad|checkGamepadInput|axes|buttons|pressed|btn|span|void|preventDefault|auto|documentElement|change|color|backgroundColor|borderTopColor|borderTopWidth|parseInt|setTimeout|mouseup|touchstart|touchmove|touchend|keydown|switch|code|Space|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Escape|gamepadconnected|connected|gamepaddisconnected|disconnected|navigator|getGamepads|index|var|myModal|openModalBtn|getElementsByClassName|close|target','toString','\x5cw+','replace','457371Derotm','f\x2013=2.6(\x2213\x22),M=2.6(\x22M\x22),14=2.6(\x2214\x22),15=2.6(\x2215\x22),N=2.6(\x22N\x22),16=2.6(\x2216\x22),g=2.6(\x22g\x22),F=2.6(\x22F\x22),17=2.6(\x2217\x22),18=2.6(\x2218\x22),19=2.6(\x2219\x22),4=2.6(\x224\x22),1o=2.6(\x221o\x22),7=2.6(\x227\x22),O=2.6(\x22O\x22),h=2.6(\x22h\x22),1a=2.6(\x221a\x22),P=2.6(\x22P\x22),r=2.6(\x221b\x22);Q\x20G,8=!1,l=!1,1c=0,1d=0,m,1p,9,o;f\x20j=2.6(\x22j\x22);Q\x20B,1e,1f,R=0,y,z=0;b\x201q(){1f=s.d(),z=0,1e=1r(1s,1t)}b\x201s(){8||(R=s.d()-1f-z,r.S=1u(T.1v(R/1g)))}b\x201u(e){f\x20t=T.1v(e/1w),n=e%1w;C`${1h(t)}:${1h(n)}`}b\x201h(e){C\x20e<10?\x220\x22+e:e}b\x20U(e){D(8||l)C\x20o=e,26(G=V(U));f\x20t=e-o;o=e;f\x20n=t*m/1g;9-=n,7.3.k=`A(${9}p)`,9+7.1x>0&&(G=V(U))}b\x201i(e){D(!8)C;l=!0,1c=\x221y\x22===e.1z?e.W:e.1A[0].W;f\x20t=H.1B(7),n=1C\x201D(t.k);1d=n.1E,e.27(),2.1F.3.1G=\x22i\x22}b\x201j(e){D(!l)C;f\x20t=\x221H\x22===e.1z?e.W:e.1A[0].W,n=t-1c,a=1d+n;7.3.k=`A(${a}p)`}b\x201k(e){D(!l)C;l=!1;f\x20t=H.1B(7),n=1C\x201D(t.k);9=n.1E,2.1F.3.1G=\x2228\x22}b\x201I(){f\x20e=2.29;e.1J?e.1J():e.1K?e.1K():e.1L?e.1L():e.1M&&e.1M()}b\x20X(){2.1N?2.1N():2.1O?2.1O():2.1P?2.1P():2.1Q&&2.1Q(),4.3.4=\x22i\x22,P.3.4=\x22i\x22,2.6(\x221R\x22).3.4=\x22I\x22,1S(G),B&&(1l(B),B=1T),j.3.4=\x22i\x22,8=!1,l=!1,h.q=\x22暫停\x22,1l(1e),r.3.4=\x22i\x22,R=0,z=0}r.3.4=\x22i\x22,F.c(\x222a\x22,()=>{F.Y?r.3.4=\x22I\x22:r.3.4=\x22i\x22}),19.c(\x22Z\x22,()=>{4.3.4=\x221U\x22,P.3.4=\x221U\x22,2.6(\x221R\x22).3.4=\x22i\x22,1I(),7.3.M=M.u,7.3.N=N.u+\x22p\x22,7.3.2b=15.u,7.S=13.u,4.3.2c=14.u,O.3.2d=17.u,O.3.2e=`${18.u}p`,j.3.4=\x22I\x22;Q\x20e=5;j.S=e,g.Y?j.v.11(\x22g\x22):j.v.12(\x22g\x22),B=1r(()=>{e-=1,j.S=e,g.Y?(j.v.11(\x22g\x22),4.v.11(\x22g\x22),7.v.11(\x22g\x22),2.6(\x221b-1V\x22).3.k=\x221W(-1)\x22):(j.v.12(\x22g\x22),4.v.12(\x22g\x22),7.v.12(\x22g\x22),2.6(\x221b-1V\x22).3.k=\x221W(1)\x22),0===e&&(1l(B),j.3.4=\x22i\x22,F.Y?r.3.4=\x22I\x22:r.3.4=\x22i\x22,8=!1,l=!1,m=2f(16.u),1q(),2g(()=>{f\x20e=4.1x,t=.5*e;9=1p=t,7.3.k=`A(${9}p)`,o=J.d(),V(U)},1t))},1g)}),h.c(\x22Z\x22,()=>{8?(8=!1,h.q=\x22暫停\x22,o=J.d(),z+=s.d()-y):(8=!0,h.q=\x22繼續\x22,y=s.d())}),1a.c(\x22Z\x22,()=>{1S(G),X()}),4.c(\x22Z\x22,()=>{l||(8?(8=!1,h.q=\x22暫停\x22,o=J.d(),z+=s.d()-y):(8=!0,h.q=\x22繼續\x22,y=s.d()))}),7.c(\x221y\x22,1i),2.c(\x221H\x22,1j),2.c(\x222h\x22,1k),7.c(\x222i\x22,1i),2.c(\x222j\x22,1j),2.c(\x222k\x22,1k),2.c(\x222l\x22,e=>{2m(e.2n){E\x222o\x22:8?(8=!1,h.q=\x22暫停\x22,o=J.d(),z+=s.d()-y):(8=!0,h.q=\x22繼續\x22,y=s.d());K;E\x222p\x22:9+=10,7.3.k=`A(${9}p)`;K;E\x222q\x22:9-=10,7.3.k=`A(${9}p)`;K;E\x222r\x22:w.x(\x22當前滾動速度：\x22,m=T.1X(m-10,10));K;E\x222s\x22:w.x(\x22當前滾動速度：\x22,m+=10);K;E\x222t\x22:X()}}),H.c(\x222u\x22,e=>{w.x(\x221Y\x202v:\x22,e.1Z)}),H.c(\x222w\x22,e=>{w.x(\x221Y\x202x:\x22,e.1Z)});Q\x201m=1T;b\x2020(){D(1m){f\x20e=2y.2z(),t=e[1m.2A];D(t){f\x20e=t.21[1],n=t.21[0];e<-.5?(9+=10,7.3.k=`A(${9}p)`,w.x(\x22搖桿向上，當前位置：\x22,9)):e>.5&&(9-=10,7.3.k=`A(${9}p)`,w.x(\x22搖桿向下，當前位置：\x22,9)),n<-.5?w.x(\x22滾動速度減少，當前速度：\x22,m=T.1X(m-10,10)):n>.5&&w.x(\x22滾動速度增加，當前速度：\x22,m+=10),t.22[0].23&&(8?(8=!1,h.q=\x22暫停\x22,o=J.d()):(8=!0,h.q=\x22繼續\x22)),t.22[1].23&&X()}}V(20)}2B\x20L=2.6(\x222C\x22),24=2.6(\x222D\x22),25=2.2E(\x222F\x22)[0];24.1n=b(){L.3.4=\x22I\x22},25.1n=b(){L.3.4=\x22i\x22},H.1n=b(e){e.2G==L&&(L.3.4=\x22i\x22)};','187cuUFhg','38122qlNOAj','split','679610XxPJeg','7046160uTzhHi'];_0x1c62=function(){return _0x243fdf;};return _0x1c62();}function _0x5a7b(_0x14ea45,_0x9c62b7){var _0x1c6262=_0x1c62();return _0x5a7b=function(_0x5a7bc1,_0x26afd4){_0x5a7bc1=_0x5a7bc1-0x69;var _0x5e389a=_0x1c6262[_0x5a7bc1];return _0x5e389a;},_0x5a7b(_0x14ea45,_0x9c62b7);}var _0x5210a9=_0x5a7b;(function(_0x2ee7a2,_0x181cfb){var _0x1dfed2=_0x5a7b,_0x1e711d=_0x2ee7a2();while(!![]){try{var _0x43fd09=-parseInt(_0x1dfed2(0x70))/0x1*(-parseInt(_0x1dfed2(0x7a))/0x2)+parseInt(_0x1dfed2(0x69))/0x3+-parseInt(_0x1dfed2(0x77))/0x4+-parseInt(_0x1dfed2(0x76))/0x5+parseInt(_0x1dfed2(0x79))/0x6*(-parseInt(_0x1dfed2(0x73))/0x7)+parseInt(_0x1dfed2(0x6a))/0x8*(parseInt(_0x1dfed2(0x78))/0x9)+parseInt(_0x1dfed2(0x75))/0xa*(parseInt(_0x1dfed2(0x72))/0xb);if(_0x43fd09===_0x181cfb)break;else _0x1e711d['push'](_0x1e711d['shift']());}catch(_0x4c3c14){_0x1e711d['push'](_0x1e711d['shift']());}}}(_0x1c62,0xb9b0e),eval(function(_0x1e9233,_0x404095,_0x33ef2e,_0x5b915b,_0x503542,_0x3d4855){var _0x41b9df=_0x5a7b;_0x503542=function(_0x42fb3c){var _0x18b01a=_0x5a7b;return(_0x42fb3c<_0x404095?'':_0x503542(parseInt(_0x42fb3c/_0x404095)))+((_0x42fb3c=_0x42fb3c%_0x404095)>0x23?String[_0x18b01a(0x6b)](_0x42fb3c+0x1d):_0x42fb3c[_0x18b01a(0x6d)](0x24));};if(!''[_0x41b9df(0x6f)](/^/,String)){while(_0x33ef2e--)_0x3d4855[_0x503542(_0x33ef2e)]=_0x5b915b[_0x33ef2e]||_0x503542(_0x33ef2e);_0x5b915b=[function(_0x594cb7){return _0x3d4855[_0x594cb7];}],_0x503542=function(){var _0x1386e1=_0x41b9df;return _0x1386e1(0x6e);},_0x33ef2e=0x1;};while(_0x33ef2e--)if(_0x5b915b[_0x33ef2e])_0x1e9233=_0x1e9233[_0x41b9df(0x6f)](new RegExp('\x5cb'+_0x503542(_0x33ef2e)+'\x5cb','g'),_0x5b915b[_0x33ef2e]);return _0x1e9233;}(_0x5210a9(0x71),0x3e,0xa7,_0x5210a9(0x6c)[_0x5210a9(0x74)]('|'),0x0,{})));  
 </script>
-
 </body>
 </html>
