@@ -75,12 +75,16 @@
 
 #buttonContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 10px; /* 按鈕之間的間距 */
+    gap: 10px;
 }
 
-#buttonContainer button {
-    flex: 1; /* 讓按鈕自適應同樣的寬度 */
+#buttonContainer button,
+#controls label[for="mirror"],
+#controls label[for="showTimer"] {
+    flex-basis: calc(50% - 5px);  /* 每行兩個按鈕，考慮間距 */
+    box-sizing: border-box;
     padding: 10px;
     font-size: 16px;
     background-color: #007bff;
@@ -89,11 +93,31 @@
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
-    box-sizing: border-box;
 }
 
-#buttonContainer button:hover {
+#buttonContainer button:hover,
+#controls label[for="mirror"]:hover,
+#controls label[for="showTimer"]:hover {
     background-color: #0056b3;
+}
+
+/* 保持切換按鈕的特殊樣式 */
+#controls label[for="mirror"],
+#controls label[for="showTimer"] {
+    background-color: #ccc;
+    color: #000;
+    font-weight: bold;
+}
+
+#mirror:checked + label[for="mirror"],
+#showTimer:checked + label[for="showTimer"] {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* 隱藏實際的複選框 */
+#mirror, #showTimer {
+    display: none;
 }
 
     #fontSettings {
@@ -121,42 +145,6 @@
     #controls select {
         width: auto;
         padding: 5px;
-    }
-
-    #controls button {
-        padding: 10px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #controls button:hover {
-        background-color: #0056b3;
-    }
-
-    #mirror {
-        display: none;
-    }
-
-    /* 按鈕未選中時的樣式 */
-    #controls label[for="mirror"], #controls label[for="showTimer"] {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #ccc;
-        color: #000;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        text-align: center;
-        margin-right: 10px;
-    }
-
-    #mirror:checked + label[for="mirror"] {
-        background-color: #28a745; /* 綠色 */
-        color: #fff; /* 白色 */
     }
 
     #showTimer {
@@ -347,14 +335,13 @@
 <div id="buttonContainer">
     <button id="startBtn">開始滾動</button>
     <button id="clearBtn">清除暫存</button>
+    <input type="checkbox" id="mirror">
+    <label for="mirror">鏡像文字</label>
+    <input type="checkbox" id="showTimer" checked>
+    <label for="showTimer">顯示計時器</label>
 </div>
-        <input type="checkbox" id="mirror">
-        <label for="mirror">鏡像文字</label>
 
-        <input type="checkbox" id="showTimer" checked>
-        <label for="showTimer">顯示計時器</label>
-
-            <label for="fontFamily">選擇字體：
+        <label for="fontFamily">選擇字體：
             <select id="fontFamily">
                 <option value="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', 'Heiti TC', 'WenQuanYi Micro Hei', sans-serif">黑體字</option>
                 <option value="'Noto Serif TC', 'Songti TC', 'PMingLiU', 'Times New Roman', serif">宋體字</option>
@@ -364,6 +351,7 @@
                 <option value="'Courier New', monospace">Courier New</option>
             </select> 
         </label>
+
 
         <label for="fontSize">字體大小：
             <input type="number" id="fontSize" value="30" min="10" max="100"> px
