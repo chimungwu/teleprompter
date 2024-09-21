@@ -348,8 +348,13 @@
     <button id="startBtn">開始滾動</button>
     <button id="clearBtn">清除暫存</button>
 </div>
+        <input type="checkbox" id="mirror">
+        <label for="mirror">鏡像文字</label>
 
-        <label for="fontFamily">選擇字體：
+        <input type="checkbox" id="showTimer" checked>
+        <label for="showTimer">顯示計時器</label>
+
+            <label for="fontFamily">選擇字體：
             <select id="fontFamily">
                 <option value="'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', 'Heiti TC', 'WenQuanYi Micro Hei', sans-serif">黑體字</option>
                 <option value="'Noto Serif TC', 'Songti TC', 'PMingLiU', 'Times New Roman', serif">宋體字</option>
@@ -359,12 +364,6 @@
                 <option value="'Courier New', monospace">Courier New</option>
             </select> 
         </label>
-
-        <input type="checkbox" id="mirror">
-        <label for="mirror">鏡像文字</label>
-
-        <input type="checkbox" id="showTimer" checked>
-        <label for="showTimer">顯示計時器</label>
 
         <label for="fontSize">字體大小：
             <input type="number" id="fontSize" value="30" min="10" max="100"> px
