@@ -509,6 +509,23 @@ function preventScreenDim() {
   }, 10000); // 每10秒触发一次
 }
 
+// 使用隐藏视频播放防止屏幕变暗
+function preventScreenDimViaVideo() {
+  const video = document.createElement('video');
+  video.src = '/teleprompter/small-video.mp4'; // 请替换为实际视频文件的路径
+  video.loop = true;
+  video.muted = true;
+  video.playsInline = true;
+  video.style.display = 'none'; // 隐藏视频元素
+
+  document.body.appendChild(video);
+
+  // 在用户交互时播放视频
+  video.play().catch((error) => {
+    console.error('播放隐藏视频时出错:', error);
+  });
+}
+
 // 尝试全屏模式，增加屏幕保持活跃的机会
 function requestFullscreen() {
   const elem = document.documentElement;  // 获取整个页面
@@ -523,10 +540,12 @@ function requestFullscreen() {
 
 // 在按钮点击时触发所有防止屏幕变暗的机制
 document.getElementById('startBtn').addEventListener('click', () => {
-  requestFullscreen();  // 尝试进入全屏模式
-  requestWakeLock();  // 尝试使用 Wake Lock API
-  preventScreenDim(); // 开始定时触发用户交互
+  requestFullscreen();        // 尝试进入全屏模式
+  requestWakeLock();          // 尝试使用 Wake Lock API
+  preventScreenDim();         // 开始定时触发用户交互
+  preventScreenDimViaVideo(); // 开始播放隐藏视频
 });
+
 
 </script>
 
