@@ -481,12 +481,12 @@ async function requestWakeLock() {
     try {
       wakeLock = await navigator.wakeLock.request('screen');
       console.log('Wake Lock is active');
-
+      
       wakeLock.addEventListener('release', () => {
         console.log('Wake Lock was released');
       });
     } catch (err) {
-      console.error(`${err.name}, `${err.message}`);
+      console.error(`${err.name}, ${err.message}`);
     }
   } else {
     console.warn('Wake Lock API not supported on this browser.');
@@ -508,11 +508,24 @@ function preventScreenDim() {
   }, 10000); // 每10秒触发一次
 }
 
+// 尝试全屏模式，增加屏幕保持活跃的机会
+function requestFullscreen() {
+  const elem = document.documentElement;  // 获取整个页面
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { // 兼容 Safari
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
+}
+
+// 在按钮点击时触发所有防止屏幕变暗的机制
 document.getElementById('startBtn').addEventListener('click', () => {
+  requestFullscreen();  // 尝试进入全屏模式
   requestWakeLock();  // 尝试使用 Wake Lock API
   preventScreenDim(); // 开始定时触发用户交互
 });
-
 
 </script>
 
