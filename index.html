@@ -509,61 +509,13 @@ function preventScreenDim() {
   }, 10000); // 每10秒触发一次
 }
 
-function preventScreenDimViaVideo() {
-  const video = document.createElement('video');
-  video.src = '/teleprompter/small-video.mp4'; // 请确保路径正确
-  video.loop = true;
-  video.muted = true;
-  video.autoplay = true;
-  video.playsInline = true;
-
-  // 调整样式
-  video.style.width = '1px';
-  video.style.height = '1px';
-  video.style.opacity = '0';
-  video.style.position = 'fixed';
-  video.style.bottom = '0';
-  video.style.left = '0';
-
-  document.body.appendChild(video);
-
-  // 添加事件监听器
-  video.addEventListener('play', () => {
-    console.log('隐藏视频正在播放');
-  });
-
-  video.addEventListener('error', (e) => {
-    console.error('隐藏视频播放出错:', e);
-  });
-
-  // 在用户交互时播放视频
-  video.play().then(() => {
-    console.log('视频播放已启动');
-  }).catch((error) => {
-    console.error('播放隐藏视频时出错:', error);
-  });
-}
-
-// 尝试全屏模式，增加屏幕保持活跃的机会
-function requestFullscreen() {
-  const elem = document.documentElement;  // 获取整个页面
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) { // 兼容 Safari
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    elem.msRequestFullscreen();
-  }
-}
 
 // 在按钮点击时触发所有防止屏幕变暗的机制
 document.getElementById('startBtn').addEventListener('click', () => {
-  requestFullscreen();        // 尝试进入全屏模式
   requestWakeLock();          // 尝试使用 Wake Lock API
   preventScreenDim();         // 开始定时触发用户交互
-  preventScreenDimViaVideo(); // 开始播放隐藏视频
-});
 
+});
 
 </script>
 
