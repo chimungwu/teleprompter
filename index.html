@@ -512,7 +512,7 @@ function preventScreenDim() {
 // 使用隐藏视频播放防止屏幕变暗
 function preventScreenDimViaVideo() {
   const video = document.createElement('video');
-  video.src = '/teleprompter/small-video.mp4'; // 请替换为实际视频文件的路径
+  video.src = 'small-video.mp4'; // 请替换为实际视频文件的路径
   video.loop = true;
   video.muted = true;
   video.playsInline = true;
