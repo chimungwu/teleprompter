@@ -509,19 +509,37 @@ function preventScreenDim() {
   }, 10000); // 每10秒触发一次
 }
 
-// 使用隐藏视频播放防止屏幕变暗
 function preventScreenDimViaVideo() {
   const video = document.createElement('video');
-  video.src = 'small-video.mp4'; // 请替换为实际视频文件的路径
+  video.src = '/teleprompter/small-video.mp4'; // 请确保路径正确
   video.loop = true;
   video.muted = true;
+  video.autoplay = true;
   video.playsInline = true;
-  video.style.display = 'none'; // 隐藏视频元素
+
+  // 调整样式
+  video.style.width = '1px';
+  video.style.height = '1px';
+  video.style.opacity = '0';
+  video.style.position = 'fixed';
+  video.style.bottom = '0';
+  video.style.left = '0';
 
   document.body.appendChild(video);
 
+  // 添加事件监听器
+  video.addEventListener('play', () => {
+    console.log('隐藏视频正在播放');
+  });
+
+  video.addEventListener('error', (e) => {
+    console.error('隐藏视频播放出错:', e);
+  });
+
   // 在用户交互时播放视频
-  video.play().catch((error) => {
+  video.play().then(() => {
+    console.log('视频播放已启动');
+  }).catch((error) => {
     console.error('播放隐藏视频时出错:', error);
   });
 }
