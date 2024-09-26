@@ -281,10 +281,16 @@
         gap: 20px;
     }
 
-    #controlButtons button {
-        padding: 10px 20px;
-        font-size: 16px;
-    }
+#controlButtons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    opacity: 0.3; /* 初始狀態設為半透明 */
+    transition: opacity 0.3s ease; /* 添加過渡效果，讓變化更平滑 */
+}
+
+#controlButtons button:hover {
+    opacity: 1; /* 滑鼠移到按鈕上時變為完全不透明 */
+}
 
     #referenceLine {
         position: absolute;
@@ -366,7 +372,7 @@
         簡易提詞器
     </h1>
     <p style="text-align: center;">
-        ver.2024/09/24 <!-- 說明文件按鈕 -->
+        ver.2024/09/27 <!-- 說明文件按鈕 -->
         <input type="button" id="openModalBtn" value="說明文件"><br>
         程式維護：<a href="https://www.facebook.com/profile.php?id=61557246475372" target="_blank">仨寶爸中醫博士吳啓銘</a>
     </p>
