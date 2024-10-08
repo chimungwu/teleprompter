@@ -531,36 +531,35 @@ function checkGamepadInput() {
         const gp = gamepads[currentGamepad.index];
 
         if (gp) {
-            // 檢查 D-pad 上下左右按鍵（buttons）輸入
-            const dpadUp = gp.buttons[12]?.pressed || false;    // 方向鍵上
-            const dpadDown = gp.buttons[13]?.pressed || false;  // 方向鍵下
-            const dpadLeft = gp.buttons[14]?.pressed || false;  // 方向鍵左
-            const dpadRight = gp.buttons[15]?.pressed || false; // 方向鍵右
+            // 檢查方向鍵（D-pad）輸入
+            const dpadUp = gp.buttons[12].pressed;    // 方向鍵上
+            const dpadDown = gp.buttons[13].pressed;  // 方向鍵下
+            const dpadLeft = gp.buttons[14].pressed;  // 方向鍵左
+            const dpadRight = gp.buttons[15].pressed; // 方向鍵右
 
-            // 檢查軸（axes）輸入，如果方向鍵映射到軸
-            const dpadVertical = gp.axes[1] || 0;  // Y 軸：-1 向上，1 向下
-            const dpadHorizontal = gp.axes[0] || 0;  // X 軸：-1 向左，1 向右
+            // 控制上下滾動（加入Axis Y軸控制）
+            const axisY = gp.axes[1]; // 左搖桿 Y 軸，通常範圍為 -1 到 1
 
-            // 控制上下滾動（按鍵或軸的輸入都適用）
-            if (dpadUp || dpadVertical < -0.5) {
+            if (dpadUp || axisY < -0.5) {
                 scrollTextBy(10);  // 向上滾動
                 console.log('向上滾動，當前位置：', currentTranslateY);
-            } else if (dpadDown || dpadVertical > 0.5) {
+            } else if (dpadDown || axisY > 0.5) {
                 scrollTextBy(-10);  // 向下滾動
                 console.log('向下滾動，當前位置：', currentTranslateY);
             }
 
-            // 控制左右調整滾動速度（按鍵或軸的輸入都適用）
-            if (dpadLeft || dpadHorizontal < -0.5) {
+            // 控制滾動速度
+            const axisX = gp.axes[0]; // 左搖桿 X 軸，通常範圍為 -1 到 1
+            if (dpadLeft || axisX < -0.5) {
                 changeSpeedBy(-10);  // 減少滾動速度
                 console.log('減少滾動速度');
-            } else if (dpadRight || dpadHorizontal > 0.5) {
+            } else if (dpadRight || axisX > 0.5) {
                 changeSpeedBy(10);  // 增加滾動速度
                 console.log('增加滾動速度');
             }
 
             // 檢查A鍵（Button 0）是否按下，使用「按下即觸發」的方式
-            const isButtonAPressed = gp.buttons[0]?.pressed || false;
+            const isButtonAPressed = gp.buttons[0].pressed;
             if (isButtonAPressed && !wasButtonAPressed) {
                 togglePause();  // A 鍵暫停/繼續滾動
                 console.log('A鍵被按下，切換暫停狀態');
@@ -568,7 +567,7 @@ function checkGamepadInput() {
             wasButtonAPressed = isButtonAPressed;  // 更新按鍵狀態
 
             // 檢查B鍵（Button 1）退出全屏
-            if (gp.buttons[1]?.pressed) {
+            if (gp.buttons[1].pressed) {
                 exitTeleprompter();  // B 鍵退出全屏
             }
         }
