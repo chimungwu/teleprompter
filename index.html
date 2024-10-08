@@ -537,24 +537,25 @@ function checkGamepadInput() {
             const dpadLeft = gp.buttons[14].pressed;  // 方向鍵左
             const dpadRight = gp.buttons[15].pressed; // 方向鍵右
 
-            // 控制上下滾動（加入Axis Y軸控制）
-            const axisY = gp.axes[1]; // 左搖桿 Y 軸，通常範圍為 -1 到 1
+            // 檢查 R 和 L 鍵輸入
+            const rButton = gp.buttons[5].pressed;  // R 鍵
+            const lButton = gp.buttons[4].pressed;  // L 鍵
 
-            if (dpadUp || axisY < -0.5) {
+            // 控制上下滾動，支援 D-pad 和 R/L 鍵
+            if (dpadUp || rButton) {
                 scrollTextBy(10);  // 向上滾動
                 console.log('向上滾動，當前位置：', currentTranslateY);
-            } else if (dpadDown || axisY > 0.5) {
+            } else if (dpadDown || lButton) {
                 scrollTextBy(-10);  // 向下滾動
                 console.log('向下滾動，當前位置：', currentTranslateY);
             }
 
             // 控制滾動速度
-            const axisX = gp.axes[0]; // 左搖桿 X 軸，通常範圍為 -1 到 1
-            if (dpadLeft || axisX < -0.5) {
-                changeSpeedBy(-10);  // 減少滾動速度
+            if (dpadLeft) {
+                changeSpeedBy(-10);  // 方向鍵左，減少滾動速度
                 console.log('減少滾動速度');
-            } else if (dpadRight || axisX > 0.5) {
-                changeSpeedBy(10);  // 增加滾動速度
+            } else if (dpadRight) {
+                changeSpeedBy(10);  // 方向鍵右，增加滾動速度
                 console.log('增加滾動速度');
             }
 
