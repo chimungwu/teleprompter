@@ -523,61 +523,52 @@ window.addEventListener("gamepaddisconnected", (event) => {
 });
 
 let wasButtonAPressed = false;  // 用於記錄上次A鍵的狀態
-let lastScrollTime = 0;
-const scrollCooldown = 100;  // 滾動的冷卻時間
 
+// 持續檢查遊戲控制器的輸入
 function checkGamepadInput() {
     if (currentGamepad) {
         const gamepads = navigator.getGamepads();
         const gp = gamepads[currentGamepad.index];
 
         if (gp) {
-            const now = Date.now();
-
-            // **D-pad** 上下鍵控制滾動
+            // 檢查方向鍵（D-pad）輸入
             const dpadUp = gp.buttons[12].pressed;    // 方向鍵上
             const dpadDown = gp.buttons[13].pressed;  // 方向鍵下
+            const dpadLeft = gp.buttons[14].pressed;  // 方向鍵左
+            const dpadRight = gp.buttons[15].pressed; // 方向鍵右
 
-            if (now - lastScrollTime > scrollCooldown) {
-                if (dpadUp) {
-                    scrollTextBy(10);  // 向上滾動
-                    console.log('向上滾動，當前位置：', currentTranslateY);
-                    lastScrollTime = now;  // 更新滾動的時間
-                } else if (dpadDown) {
-                    scrollTextBy(-10);  // 向下滾動
-                    console.log('向下滾動，當前位置：', currentTranslateY);
-                    lastScrollTime = now;  // 更新滾動的時間
-                }
+            // 檢查 R 和 L 鍵輸入
+            const rButton = gp.buttons[5].pressed;  // R 鍵
+            const lButton = gp.buttons[4].pressed;  // L 鍵
+
+            // 控制上下滾動，支援 D-pad 和 R/L 鍵
+            if (dpadUp) {
+                scrollTextBy(10);  // 向上滾動
+                console.log('向上滾動，當前位置：', currentTranslateY);
+            } else if (dpadDown) {
+                scrollTextBy(-10);  // 向下滾動
+                console.log('向下滾動，當前位置：', currentTranslateY);
             }
 
-            // **R/L** 鍵單獨控制不同的滾動功能
-            const rButton = gp.buttons[5].pressed;    // R 鍵
-            const lButton = gp.buttons[4].pressed;    // L 鍵
-
-            // 將 R 鍵與 L 鍵的功能與 D-pad 分開
+            // 控制上下滾動，支援 D-pad 和 R/L 鍵
             if (rButton) {
-                scrollTextBy(20);  // 例如 R 鍵向上快速滾動
-                console.log('R鍵快速向上滾動');
+                scrollTextBy(20);  // 向上滾動
+                console.log('向上滾動，當前位置：', currentTranslateY);
+            } else if (lButton) {
+                scrollTextBy(-20);  // 向下滾動
+                console.log('向下滾動，當前位置：', currentTranslateY);
             }
 
-            if (lButton) {
-                scrollTextBy(-20);  // 例如 L 鍵向下快速滾動
-                console.log('L鍵快速向下滾動');
-            }
-
-            // **D-pad** 左右鍵控制滾動速度
-            const dpadLeft = gp.buttons[14].pressed;   // 方向鍵左
-            const dpadRight = gp.buttons[15].pressed;  // 方向鍵右
-
+            // 控制滾動速度
             if (dpadLeft) {
                 changeSpeedBy(-10);  // 方向鍵左，減少滾動速度
                 console.log('減少滾動速度');
             } else if (dpadRight) {
-                changeSpeedBy(10);   // 方向鍵右，增加滾動速度
+                changeSpeedBy(10);  // 方向鍵右，增加滾動速度
                 console.log('增加滾動速度');
             }
 
-            // 檢查 A 鍵（Button 0）是否按下
+            // 檢查A鍵（Button 0）是否按下，使用「按下即觸發」的方式
             const isButtonAPressed = gp.buttons[0].pressed;
             if (isButtonAPressed && !wasButtonAPressed) {
                 togglePause();  // A 鍵暫停/繼續滾動
@@ -585,7 +576,7 @@ function checkGamepadInput() {
             }
             wasButtonAPressed = isButtonAPressed;  // 更新按鍵狀態
 
-            // 檢查 B 鍵（Button 1）退出全屏
+            // 檢查B鍵（Button 1）退出全屏
             if (gp.buttons[1].pressed) {
                 exitTeleprompter();  // B 鍵退出全屏
             }
@@ -597,6 +588,7 @@ function checkGamepadInput() {
         requestAnimationFrame(checkGamepadInput);
     }
 }
+
 
 // 說明對話框設定
 var modal = document.getElementById("myModal");
