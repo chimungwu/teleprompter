@@ -5,26 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>智慧提詞器 Pro｜網站已搬遷</title>
+    <title>智慧提詞器 Pro｜全新升級</title>
+    <meta name="description" content="簡易提詞器已升級為智慧提詞器 Pro，新增 AI 語音跟隨、聲控滾動及多篇稿件管理。">
 
-    <!-- 自動轉址 -->
-    <meta http-equiv="refresh" content="0; url=https://tp.tcmdr.tw/">
-
-    <!-- SEO 新網址 -->
     <link rel="canonical" href="https://tp.tcmdr.tw/">
 
-    <script>
-        window.location.replace("https://tp.tcmdr.tw/");
-    </script>
+    <!-- 5 秒後自動轉址，亦支援停用 JavaScript 的瀏覽器 -->
+    <meta http-equiv="refresh" content="5; url=https://tp.tcmdr.tw/">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #f0f6fc;
+            padding: 24px;
+            background: linear-gradient(135deg, #edf6ff, #dbeafe);
             color: #183153;
             font-family: -apple-system, BlinkMacSystemFont,
                          "Microsoft JhengHei", sans-serif;
@@ -32,53 +34,143 @@
         }
 
         .container {
-            background: #ffffff;
-            padding: 40px 30px;
-            margin: 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
             max-width: 480px;
+            padding: 36px 26px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(30, 64, 175, 0.10);
         }
 
-        h1 {
-            font-size: 28px;
+        .icon {
+            font-size: 56px;
+            margin-bottom: 12px;
         }
 
-        p {
-            line-height: 1.8;
-        }
-
-        a {
+        .version {
             display: inline-block;
-            padding: 14px 24px;
-            margin-top: 15px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: #e0edff;
+            color: #2563eb;
+            font-size: 14px;
             font-weight: bold;
         }
 
-        footer {
-            margin-top: 30px;
-            font-size: 14px;
+        h1 {
+            font-size: 30px;
+            margin: 18px 0 8px;
+        }
+
+        .subtitle {
             color: #64748b;
+            font-size: 17px;
+        }
+
+        .features {
+            text-align: left;
+            background: #f4f8fc;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            line-height: 2;
+            font-size: 16px;
+        }
+
+        .countdown {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 16px 0 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .notice {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .progress-track {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 22px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #60a5fa, #2563eb);
+            animation: progress 5s linear forwards;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to   { width: 100%; }
+        }
+
+        .link {
+            display: block;
+            padding: 15px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .link:hover {
+            background: #1d4ed8;
+        }
+
+        footer {
+            margin-top: 28px;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.8;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+
+    <main class="container">
+
+        <div class="icon">🎬</div>
+
+        <span class="version">全新升級 V2.0</span>
+
         <h1>智慧提詞器 Pro</h1>
 
-        <p>簡易提詞器已全面升級！</p>
-
-        <p>
-            網站已搬遷至新的網址，<br>
-            系統將自動帶您前往新版智慧提詞器。
+        <p class="subtitle">
+            原簡易提詞器已全面升級
         </p>
 
-        <a href="https://tp.tcmdr.tw/">
+        <div class="features">
+            🎙️ AI 語音跟隨提詞<br>
+            🔊 語音啟動、自動暫停<br>
+            📁 多篇講稿儲存與管理<br>
+            🎮 藍牙遙控與鏡像顯示<br>
+            📱 支援手機、平板及電腦
+        </div>
+
+        <div class="countdown" id="countdown">5</div>
+
+        <div class="notice">
+            網站已搬遷至新網址<br>
+            即將自動為您轉址
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-bar"></div>
+        </div>
+
+        <a class="link" href="https://tp.tcmdr.tw/">
             https://tp.tcmdr.tw/
         </a>
 
@@ -86,6 +178,28 @@
             程式設計與維護<br>
             仨寶爸中醫師 吳啓銘
         </footer>
-    </div>
+
+    </main>
+
+    <script>
+        const targetUrl = "https://tp.tcmdr.tw/";
+        const deadline = Date.now() + 5000;
+        const countdown = document.getElementById("countdown");
+
+        const timer = setInterval(() => {
+            const remaining = Math.max(
+                0,
+                Math.ceil((deadline - Date.now()) / 1000)
+            );
+
+            countdown.textContent = remaining;
+
+            if (remaining <= 0) {
+                clearInterval(timer);
+                window.location.replace(targetUrl);
+            }
+        }, 100);
+    </script>
+
 </body>
 </html>
